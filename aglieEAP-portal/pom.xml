@@ -15,27 +15,20 @@
 	<!-- 项目属性 -->
 	<properties>
 		<!-- <jdbc.driver.groupId>com.h2database</jdbc.driver.groupId> <jdbc.driver.artifactId>h2</jdbc.driver.artifactId> 
-			<jdbc.driver.version>${h2.version}</jdbc.driver.version> -->
+			<jdbc.driver.version>${h2.version}</jdbc.driver.version> <jdbc.driver.groupId>com.oracle</jdbc.driver.groupId> 
+			<jdbc.driver.artifactId>ojdbc6</jdbc.driver.artifactId> <jdbc.driver.version>11.1.0.6.0</jdbc.driver.version> 
+			<jdbc.driver.groupId>com.microsoft.sqlserver</jdbc.driver.groupId> <jdbc.driver.artifactId>sqljdbc4</jdbc.driver.artifactId> 
+			<jdbc.driver.version>4.0</jdbc.driver.version> -->
 
-		<!-- mssql <jdbc.driver.groupId>com.microsoft.sqlserver</jdbc.driver.groupId> 
-			<jdbc.driver.artifactId>sqljdbc4</jdbc.driver.artifactId> <jdbc.driver.version>4.0</jdbc.driver.version> 
-			<jdbc.driver.groupId>mysql</jdbc.driver.groupId> <jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId> 
-			<jdbc.driver.version>5.1.21</jdbc.driver.version> -->
+		<jdbc.driver.groupId>mysql</jdbc.driver.groupId>
+		<jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
+		<jdbc.driver.version>5.1.21</jdbc.driver.version>
 
-		<jdbc.driver.groupId>com.oracle</jdbc.driver.groupId>
-		<jdbc.driver.artifactId>ojdbc6</jdbc.driver.artifactId>
-		<jdbc.driver.version>11.1.0.6.0</jdbc.driver.version>
 	</properties>
 
 	<!-- 依赖项定义 -->
 	<dependencies>
 		<!-- agileEAP begin -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.21</version>
-			<scope>runtime</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.aglieEAP</groupId>
 			<artifactId>aglieEAP-core</artifactId>
@@ -67,6 +60,12 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
+
+		<!-- required for cache:annotation-driven annotation -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
 		<!-- SPRING end -->
 
 		<!-- connection pool -->
@@ -74,7 +73,7 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
 		</dependency>
-			
+
 		<!-- PERSISTENCE begin -->
 		<!-- hibernate -->
 		<dependency>
@@ -112,6 +111,16 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
 		</dependency>
 
 		<!-- dbcp -->
@@ -209,14 +218,16 @@
 		<!-- CACHE begin -->
 		<!-- redis -->
 		<dependency>
-		    <groupId>redis.clients</groupId>
-		    <artifactId>jedis</artifactId>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
-		  <groupId>org.springframework.data</groupId>
-		  <artifactId>spring-data-redis</artifactId>
-		</dependency> 
-			
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>net.spy</groupId>
 			<artifactId>spymemcached</artifactId>
@@ -234,6 +245,19 @@
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
 		<!-- CACHE end -->
+
+		<!-- lucene begin -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-highlighter</artifactId>
+			<version>4.5.0</version>
+		</dependency>
+		<!-- lucene end -->
 
 		<!-- jolokia Restful JMX -->
 		<dependency>
@@ -353,7 +377,7 @@
 		</dependency>
 		<!-- OTHER TOOLS end -->
 
-		<!-- Monitor begin-->
+		<!-- Monitor begin -->
 		<dependency>
 			<groupId>org.javasimon</groupId>
 			<artifactId>javasimon-spring</artifactId>
@@ -366,7 +390,7 @@
 			<groupId>org.javasimon</groupId>
 			<artifactId>javasimon-console-embed</artifactId>
 		</dependency>
-		<!-- Monitor end-->			
+		<!-- Monitor end -->
 
 		<!-- TEST begin -->
 		<dependency>

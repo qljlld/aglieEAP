@@ -5,8 +5,9 @@
 	<description>导入integration的applicationContext文件列表</description>
 
 	<import resource="cache/applicationContext-ehcache.xml" />
-	<import resource="cache/applicationContext-redis.xml" />
+
 	<!--
+	<import resource="cache/applicationContext-redis.xml" />
 	<import resource="cache/applicationContext-memcached.xml" />
 	<import resource="email/applicationContext-email.xml" />
 	<import resource="jms/applicationContext-jms-simple.xml" />
@@ -16,8 +17,8 @@
 	<import resource="schedule/applicationContext-spring-scheduler.xml" />
 	<import resource="schedule/applicationContext-quartz-cron-local.xml" />
 	 <import resource="schedule/applicationContext-quartz-timer-cluster.xml" /> 
-	 -->
-	<import resource="jms/applicationContext-jms.xml" />
+
+	<import resource="jms/applicationContext-jms.xml" />	 -->
 	<import resource="security/applicationContext-shiro.xml" />
 
 		<!--

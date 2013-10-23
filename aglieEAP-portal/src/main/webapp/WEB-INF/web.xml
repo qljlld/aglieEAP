@@ -122,7 +122,7 @@
 	<!-- Content Servlet 配置 -->
 	<servlet>
 		<servlet-name>StaticContentServlet</servlet-name>
-		<servlet-class>com.colores.web.StaticContentServlet</servlet-class>
+		<servlet-class>com.agileEAP.web.StaticContentServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>StaticContentServlet</servlet-name>

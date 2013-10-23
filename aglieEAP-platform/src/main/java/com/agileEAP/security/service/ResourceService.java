@@ -34,8 +34,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @Component
 @Transactional
 public class ResourceService {
-	@Autowired 
-	private RedisTemplate< String, Object > redisTemplate;
+/*	@Autowired 
+	private RedisTemplate< String, Object > redisTemplate;*/
 
 	@Autowired
 	private ResourceRepository resourceRepository;
@@ -52,7 +52,7 @@ public class ResourceService {
 		return resourceRepository.get(id);
 	}
 
-	@Cacheable("Resource")
+	//@Cacheable("Resource")
 	public List<Resource> search(Map<String, Object> parameters) {
 		return resourceRepository.search(parameters);
 	}
@@ -69,7 +69,7 @@ public class ResourceService {
 
 	public List<String> getAuthorizedResources(final String operatorID)
 	{
-		final	String key=	operatorID+".authorizedResources";
+/*		final	String key=	operatorID+".authorizedResources";
 		return redisTemplate.execute(new RedisCallback<List<String>>(){
 			@Override
 			public	List<String> doInRedis(RedisConnection connection) throws DataAccessException
@@ -86,11 +86,11 @@ public class ResourceService {
 				connection.set(rawkey, ((RedisSerializer<List<String>>)redisTemplate.getValueSerializer()).serialize(values));
 				return values;
 			}
-		});
+		});*/
 		
 	
 		//redisTemplate.opsForList().leftPushAll(operatorID+".authorizedResources", values);
-		//return privilegeRepository.getAuthorizedResources(operatorID);
+		return privilegeRepository.getAuthorizedResources(operatorID);
 	}
 	
 	public PageDataResult searchByPage(Map<String, Object> parameters) {

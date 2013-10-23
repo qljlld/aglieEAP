@@ -51,7 +51,6 @@ public class JmsAdvancedTest extends AbstractJUnit4SpringContextTests {
 
 		notifyMessageProducer.sendQueue(tradeRecord);
 		Threads.sleep(1000);
-		//assertEquals("UserName:calvin, Email:calvin@sringside.org.cn, ObjectType:user", appender.getFirstMessage());
 	}
 
 	@Test
@@ -64,14 +63,11 @@ public class JmsAdvancedTest extends AbstractJUnit4SpringContextTests {
 
 		notifyMessageProducer.sendTopic(tradeRecord);
 		Threads.sleep(1000);
-		//assertEquals("UserName:calvin, Email:calvin@sringside.org.cn, ObjectType:user", appender.getFirstMessage());
 	}
 
 	@Test
 	public void topicMessageWithWrongType() {
 		Threads.sleep(1000);
-		//LogbackListAppender appender = new LogbackListAppender();
-		//appender.addToLogger(AdvancedNotifyMessageListener.class);
 
 		advancedJmsTemplate.send(advancedNotifyTopic, new MessageCreator() {
 			@Override
@@ -84,6 +80,5 @@ public class JmsAdvancedTest extends AbstractJUnit4SpringContextTests {
 		});
 
 		Threads.sleep(1000);
-		//assertTrue(appender.isEmpty());
 	}
 }

@@ -38,6 +38,8 @@ public class NotifyMessageListener implements MessageListener {
 			if (simpleMailService != null) {
 				simpleMailService.sendNotificationMail(mapMessage.getString("tranCode"));
 			}
+			
+			//message.acknowledge();
 		} catch (Exception e) {
 			logger.error("处理消息时发生异常.", e);
 		}

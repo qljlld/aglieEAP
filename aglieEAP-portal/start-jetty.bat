@@ -6,10 +6,10 @@ set MVN=mvn
 set MAVEN_OPTS=%MAVEN_OPTS% -XX:MaxPermSize=128m
 
 echo [INFO] Start ireport web project.
-start "ireport" %MVN% clean jetty:run 
+start "aglieEAP-portal" %MVN% clean jetty:run 
 if errorlevel 1 goto error
 
 echo [INFO] Please wait a moment. When you see "[INFO] Started Jetty Server" in 1 popup consoles, you can access below demo sites:
-echo [INFO] http://localhost:8080/ireport
+echo [INFO] http://localhost:8080/aglieEAP-portal
 
 pause

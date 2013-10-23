@@ -1,6 +1,10 @@
 package com.agileEAP.portal.jms;
 
-public class TradeRecord {
+public class TradeRecord implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5358459143727155509L;
 	private String addressIp;   //秤地址
 	private String managerCode; //经营主体备案号  ---> 零售商编码
 	private String saleDate;
