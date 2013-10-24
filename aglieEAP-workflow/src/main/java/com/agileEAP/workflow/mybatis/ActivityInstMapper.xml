@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.ActivityInstRepository">
+	<sql id="columns">
+		ID as id,
+		Name as name,
+		Type as type,
+		CurrentState as currentState,
+		StartTime as startTime,
+		EndTime as endTime,
+		SubProcessInstID as subProcessInstID,
+		ActivityDefID as activityDefID,
+		ProcessInstID as processInstID,
+		RollbackFlag as rollbackFlag,
+		Description as description,
+		CreateTime as createTime   
+	</sql>
+    
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="name  != null">
+            and Name like '${name}%'
+        </if> 
+        <if test="type  != null">
+            and Type =#{type}
+        </if>
+        <if test="currentState  != null">
+            and CurrentState =#{currentState}
+        </if>
+        <if test="beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="subProcessInstID  != null">
+            and SubProcessInstID =#{subProcessInstID}
+        </if>
+        <if test="activityDefID  != null">
+            and ActivityDefID =#{activityDefID}
+        </if>
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="rollbackFlag  != null">
+            and RollbackFlag =#{rollbackFlag}
+        </if>
+        <if test="description  != null">
+            and Description like '${description}%'
+        </if> 
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.ActivityInst">
+    	select 		
+        <include refid="columns" />
+    	from WF_ActivityInst
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.ActivityInst">
+    	insert into  WF_ActivityInst (
+    	ID,Name,Type,CurrentState,StartTime,EndTime,SubProcessInstID,ActivityDefID,ProcessInstID,RollbackFlag,Description,CreateTime)
+    	values (#{id},#{name},#{type},#{currentState},#{startTime},#{endTime},#{subProcessInstID},#{activityDefID},#{processInstID},#{rollbackFlag},#{description},#{createTime})
+    </insert>
+
+    <insert id="update" parameterType="com.agileEAP.workflow.entity.ActivityInst">
+    	update WF_ActivityInst set
+    	Name=#{name},Type=#{type},CurrentState=#{currentState},StartTime=#{startTime},EndTime=#{endTime},SubProcessInstID=#{subProcessInstID},ActivityDefID=#{activityDefID},ProcessInstID=#{processInstID},RollbackFlag=#{rollbackFlag},Description=#{description},CreateTime=#{createTime}
+    	where ID=#{id}
+    </insert>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_ActivityInst where ID=#{id}
+    </delete>   
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_ActivityInst where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ActivityInst">
+		select
+        <include refid="columns" />
+		from WF_ActivityInst where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_ActivityInst where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.ActivityInst">
+		select
+        <include refid="columns" />
+		from WF_ActivityInst where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

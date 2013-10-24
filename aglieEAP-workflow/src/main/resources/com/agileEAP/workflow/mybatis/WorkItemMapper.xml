@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.WorkItemRepository">
+	<sql id="columns">
+		ID as id,
+		Name as name,
+		Type as type,
+		StartTime as startTime,
+		EndTime as endTime,
+		Description as description,
+		CurrentState as currentState,
+		Participant as participant,
+		IsTimeOut as isTimeOut,
+		TimeOutTime as timeOutTime,
+		RemindTime as remindTime,
+		ActionURL as actionURL,
+		ActionMask as actionMask,
+		RootProcessInstID as rootProcessInstID,
+		ProcessInstID as processInstID,
+		ProcessInstName as processInstName,
+		ActivityInstID as activityInstID,
+		ActivityInstName as activityInstName,
+		ProcessID as processID,
+		ProcessName as processName,
+		AllowAgent as allowAgent,
+		BizState as bizState,
+		Executor as executor,
+		ExecutorName as executorName,
+		ExecuteTime as executeTime,
+		Creator as creator,
+		CreatorName as creatorName,
+		CreateTime as createTime   
+	</sql>
+    
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="name  != null">
+            and Name like '${name}%'
+        </if> 
+        <if test="type  != null">
+            and Type =#{type}
+        </if>
+        <if test="beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="description  != null">
+            and Description like '${description}%'
+        </if> 
+        <if test="currentState  != null">
+            and CurrentState =#{currentState}
+        </if>
+        <if test="participant  != null">
+            and Participant like '${participant}%'
+        </if> 
+        <if test="isTimeOut  != null">
+            and IsTimeOut =#{isTimeOut}
+        </if>
+        <if test="beginTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime>= to_date('${beginTimeOutTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime<= to_date('${endTimeOutTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginRemindTime!=null">
+            <![CDATA[ and RemindTime>= to_date('${beginRemindTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endRemindTime!=null">
+            <![CDATA[ and RemindTime<= to_date('${endRemindTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="actionURL  != null">
+            and ActionURL like '${actionURL}%'
+        </if> 
+        <if test="actionMask  != null">
+            and ActionMask like '${actionMask}%'
+        </if> 
+        <if test="rootProcessInstID  != null">
+            and RootProcessInstID =#{rootProcessInstID}
+        </if>
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="processInstName  != null">
+            and ProcessInstName like '${processInstName}%'
+        </if> 
+        <if test="activityInstID  != null">
+            and ActivityInstID =#{activityInstID}
+        </if>
+        <if test="activityInstName  != null">
+            and ActivityInstName like '${activityInstName}%'
+        </if> 
+        <if test="processID  != null">
+            and ProcessID =#{processID}
+        </if>
+        <if test="processName  != null">
+            and ProcessName like '${processName}%'
+        </if> 
+        <if test="allowAgent  != null">
+            and AllowAgent =#{allowAgent}
+        </if>
+        <if test="bizState  != null">
+            and BizState =#{bizState}
+        </if>
+        <if test="executor  != null">
+            and Executor like '${executor}%'
+        </if> 
+        <if test="executorName  != null">
+            and ExecutorName like '${executorName}%'
+        </if> 
+        <if test="beginExecuteTime!=null">
+            <![CDATA[ and ExecuteTime>= to_date('${beginExecuteTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endExecuteTime!=null">
+            <![CDATA[ and ExecuteTime<= to_date('${endExecuteTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="creator  != null">
+            and Creator like '${creator}%'
+        </if> 
+        <if test="creatorName  != null">
+            and CreatorName like '${creatorName}%'
+        </if> 
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.WorkItem">
+    	select 		
+        <include refid="columns" />
+    	from WF_WorkItem
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.WorkItem">
+    	insert into  WF_WorkItem (
+    	ID,Name,Type,StartTime,EndTime,Description,CurrentState,Participant,IsTimeOut,TimeOutTime,RemindTime,ActionURL,ActionMask,RootProcessInstID,ProcessInstID,ProcessInstName,ActivityInstID,ActivityInstName,ProcessID,ProcessName,AllowAgent,BizState,Executor,ExecutorName,ExecuteTime,Creator,CreatorName,CreateTime)
+    	values (#{id},#{name},#{type},#{startTime},#{endTime},#{description},#{currentState},#{participant},#{isTimeOut},#{timeOutTime},#{remindTime},#{actionURL},#{actionMask},#{rootProcessInstID},#{processInstID},#{processInstName},#{activityInstID},#{activityInstName},#{processID},#{processName},#{allowAgent},#{bizState},#{executor},#{executorName},#{executeTime},#{creator},#{creatorName},#{createTime})
+    </insert>
+
+    <insert id="update" parameterType="com.agileEAP.workflow.entity.WorkItem">
+    	update WF_WorkItem set
+    	Name=#{name},Type=#{type},StartTime=#{startTime},EndTime=#{endTime},Description=#{description},CurrentState=#{currentState},Participant=#{participant},IsTimeOut=#{isTimeOut},TimeOutTime=#{timeOutTime},RemindTime=#{remindTime},ActionURL=#{actionURL},ActionMask=#{actionMask},RootProcessInstID=#{rootProcessInstID},ProcessInstID=#{processInstID},ProcessInstName=#{processInstName},ActivityInstID=#{activityInstID},ActivityInstName=#{activityInstName},ProcessID=#{processID},ProcessName=#{processName},AllowAgent=#{allowAgent},BizState=#{bizState},Executor=#{executor},ExecutorName=#{executorName},ExecuteTime=#{executeTime},Creator=#{creator},CreatorName=#{creatorName},CreateTime=#{createTime}
+    	where ID=#{id}
+    </insert>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_WorkItem where ID=#{id}
+    </delete>   
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_WorkItem where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select
+        <include refid="columns" />
+		from WF_WorkItem where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_WorkItem where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select
+        <include refid="columns" />
+		from WF_WorkItem where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

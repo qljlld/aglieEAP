@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.ProcessFormRepository">
+	<sql id="columns">
+		ID as id,
+		WorkItemID as workItemID,
+		BizTable as bizTable,
+		BizID as bizID,
+		KeyWord as keyWord,
+		CreateTime as createTime,
+		Creator as creator   
+	</sql>
+    
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="workItemID  != null">
+            and WorkItemID =#{workItemID}
+        </if>
+        <if test="bizTable  != null">
+            and BizTable like '${bizTable}%'
+        </if> 
+        <if test="bizID  != null">
+            and BizID =#{bizID}
+        </if>
+        <if test="keyWord  != null">
+            and KeyWord like '${keyWord}%'
+        </if> 
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="creator  != null">
+            and Creator like '${creator}%'
+        </if> 
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.ProcessForm">
+    	select 		
+        <include refid="columns" />
+    	from WF_ProcessForm
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.ProcessForm">
+    	insert into  WF_ProcessForm (
+    	ID,WorkItemID,BizTable,BizID,KeyWord,CreateTime,Creator)
+    	values (#{id},#{workItemID},#{bizTable},#{bizID},#{keyWord},#{createTime},#{creator})
+    </insert>
+
+    <insert id="update" parameterType="com.agileEAP.workflow.entity.ProcessForm">
+    	update WF_ProcessForm set
+    	WorkItemID=#{workItemID},BizTable=#{bizTable},BizID=#{bizID},KeyWord=#{keyWord},CreateTime=#{createTime},Creator=#{creator}
+    	where ID=#{id}
+    </insert>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_ProcessForm where ID=#{id}
+    </delete>   
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_ProcessForm where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessForm">
+		select
+        <include refid="columns" />
+		from WF_ProcessForm where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_ProcessForm where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessForm">
+		select
+        <include refid="columns" />
+		from WF_ProcessForm where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

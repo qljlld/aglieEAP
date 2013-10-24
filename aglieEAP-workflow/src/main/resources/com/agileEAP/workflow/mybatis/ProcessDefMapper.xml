@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.ProcessDefRepository">
+	<sql id="columns">
+		ID as id,
+		Name as name,
+		Text as text,
+		Content as content,
+		CategoryID as categoryID,
+		CurrentState as currentState,
+		CurrentFlag as currentFlag,
+		Startor as startor,
+		IsActive as isActive,
+		Version as version,
+		Description as description,
+		CreateTime as createTime,
+		Creator as creator,
+		ModifyTime as modifyTime,
+		Modifier as modifier   
+	</sql>
+    
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="name  != null">
+            and Name like '${name}%'
+        </if> 
+        <if test="text  != null">
+            and Text like '${text}%'
+        </if> 
+        <if test="content  != null">
+            and Content like '${content}%'
+        </if> 
+        <if test="categoryID  != null">
+            and CategoryID =#{categoryID}
+        </if>
+        <if test="currentState  != null">
+            and CurrentState =#{currentState}
+        </if>
+        <if test="currentFlag  != null">
+            and CurrentFlag =#{currentFlag}
+        </if>
+        <if test="startor  != null">
+            and Startor like '${startor}%'
+        </if> 
+        <if test="isActive  != null">
+            and IsActive =#{isActive}
+        </if>
+        <if test="version  != null">
+            and Version like '${version}%'
+        </if> 
+        <if test="description  != null">
+            and Description like '${description}%'
+        </if> 
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="creator  != null">
+            and Creator like '${creator}%'
+        </if> 
+        <if test="beginModifyTime!=null">
+            <![CDATA[ and ModifyTime>= to_date('${beginModifyTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endModifyTime!=null">
+            <![CDATA[ and ModifyTime<= to_date('${endModifyTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="modifier  != null">
+            and Modifier like '${modifier}%'
+        </if> 
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.ProcessDef">
+    	select 		
+        <include refid="columns" />
+    	from WF_ProcessDef
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.ProcessDef">
+    	insert into  WF_ProcessDef (
+    	ID,Name,Text,Content,CategoryID,CurrentState,CurrentFlag,Startor,IsActive,Version,Description,CreateTime,Creator,ModifyTime,Modifier)
+    	values (#{id},#{name},#{text},#{content},#{categoryID},#{currentState},#{currentFlag},#{startor},#{isActive},#{version},#{description},#{createTime},#{creator},#{modifyTime},#{modifier})
+    </insert>
+
+    <insert id="update" parameterType="com.agileEAP.workflow.entity.ProcessDef">
+    	update WF_ProcessDef set
+    	Name=#{name},Text=#{text},Content=#{content},CategoryID=#{categoryID},CurrentState=#{currentState},CurrentFlag=#{currentFlag},Startor=#{startor},IsActive=#{isActive},Version=#{version},Description=#{description},CreateTime=#{createTime},Creator=#{creator},ModifyTime=#{modifyTime},Modifier=#{modifier}
+    	where ID=#{id}
+    </insert>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_ProcessDef where ID=#{id}
+    </delete>   
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_ProcessDef where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessDef">
+		select
+        <include refid="columns" />
+		from WF_ProcessDef where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_ProcessDef where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessDef">
+		select
+        <include refid="columns" />
+		from WF_ProcessDef where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

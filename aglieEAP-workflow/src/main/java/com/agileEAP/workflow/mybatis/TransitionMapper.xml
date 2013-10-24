@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.TransitionRepository">
+	<sql id="columns">
+		ID as id,
+		SrcActID as srcActID,
+		SrcActInstID as srcActInstID,
+		SrcActInstName as srcActInstName,
+		SrcActName as srcActName,
+		DestActInstID as destActInstID,
+		DestActInstName as destActInstName,
+		DestActID as destActID,
+		DestActName as destActName,
+		ProcessInstID as processInstID,
+		TransTime as transTime   
+	</sql>
+    
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="srcActID  != null">
+            and SrcActID =#{srcActID}
+        </if>
+        <if test="srcActInstID  != null">
+            and SrcActInstID =#{srcActInstID}
+        </if>
+        <if test="srcActInstName  != null">
+            and SrcActInstName like '${srcActInstName}%'
+        </if> 
+        <if test="srcActName  != null">
+            and SrcActName like '${srcActName}%'
+        </if> 
+        <if test="destActInstID  != null">
+            and DestActInstID =#{destActInstID}
+        </if>
+        <if test="destActInstName  != null">
+            and DestActInstName like '${destActInstName}%'
+        </if> 
+        <if test="destActID  != null">
+            and DestActID =#{destActID}
+        </if>
+        <if test="destActName  != null">
+            and DestActName like '${destActName}%'
+        </if> 
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="beginTransTime!=null">
+            <![CDATA[ and TransTime>= to_date('${beginTransTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endTransTime!=null">
+            <![CDATA[ and TransTime<= to_date('${endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.Transition">
+    	select 		
+        <include refid="columns" />
+    	from WF_Transition
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.Transition">
+    	insert into  WF_Transition (
+    	ID,SrcActID,SrcActInstID,SrcActInstName,SrcActName,DestActInstID,DestActInstName,DestActID,DestActName,ProcessInstID,TransTime)
+    	values (#{id},#{srcActID},#{srcActInstID},#{srcActInstName},#{srcActName},#{destActInstID},#{destActInstName},#{destActID},#{destActName},#{processInstID},#{transTime})
+    </insert>
+
+    <insert id="update" parameterType="com.agileEAP.workflow.entity.Transition">
+    	update WF_Transition set
+    	SrcActID=#{srcActID},SrcActInstID=#{srcActInstID},SrcActInstName=#{srcActInstName},SrcActName=#{srcActName},DestActInstID=#{destActInstID},DestActInstName=#{destActInstName},DestActID=#{destActID},DestActName=#{destActName},ProcessInstID=#{processInstID},TransTime=#{transTime}
+    	where ID=#{id}
+    </insert>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_Transition where ID=#{id}
+    </delete>   
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_Transition where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Transition">
+		select
+        <include refid="columns" />
+		from WF_Transition where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_Transition where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.Transition">
+		select
+        <include refid="columns" />
+		from WF_Transition where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

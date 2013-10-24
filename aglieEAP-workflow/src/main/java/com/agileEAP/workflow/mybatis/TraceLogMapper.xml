@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.TraceLogRepository">
+	<sql id="columns">
+		ID as id,
+		ActionType as actionType,
+		Operator as operator,
+		ClientIP as clientIP,
+		ProcessID as processID,
+		ProcessInstID as processInstID,
+		ActivityID as activityID,
+		ActivityInstID as activityInstID,
+		WorkItemID as workItemID,
+		Message as message   
+	</sql>
+    
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="actionType  != null">
+            and ActionType =#{actionType}
+        </if>
+        <if test="operator  != null">
+            and Operator like '${operator}%'
+        </if> 
+        <if test="clientIP  != null">
+            and ClientIP like '${clientIP}%'
+        </if> 
+        <if test="processID  != null">
+            and ProcessID =#{processID}
+        </if>
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="activityID  != null">
+            and ActivityID =#{activityID}
+        </if>
+        <if test="activityInstID  != null">
+            and ActivityInstID =#{activityInstID}
+        </if>
+        <if test="workItemID  != null">
+            and WorkItemID =#{workItemID}
+        </if>
+        <if test="message  != null">
+            and Message like '${message}%'
+        </if> 
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.TraceLog">
+    	select 		
+        <include refid="columns" />
+    	from WF_TraceLog
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.TraceLog">
+    	insert into  WF_TraceLog (
+    	ID,ActionType,Operator,ClientIP,ProcessID,ProcessInstID,ActivityID,ActivityInstID,WorkItemID,Message)
+    	values (#{id},#{actionType},#{operator},#{clientIP},#{processID},#{processInstID},#{activityID},#{activityInstID},#{workItemID},#{message})
+    </insert>
+
+    <insert id="update" parameterType="com.agileEAP.workflow.entity.TraceLog">
+    	update WF_TraceLog set
+    	ActionType=#{actionType},Operator=#{operator},ClientIP=#{clientIP},ProcessID=#{processID},ProcessInstID=#{processInstID},ActivityID=#{activityID},ActivityInstID=#{activityInstID},WorkItemID=#{workItemID},Message=#{message}
+    	where ID=#{id}
+    </insert>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_TraceLog where ID=#{id}
+    </delete>   
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_TraceLog where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select
+        <include refid="columns" />
+		from WF_TraceLog where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_TraceLog where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select
+        <include refid="columns" />
+		from WF_TraceLog where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>
