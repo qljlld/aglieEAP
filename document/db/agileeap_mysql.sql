@@ -3,7 +3,7 @@
 -- Server version:               5.5.25-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-10-23 22:33:39
+-- Date/time:                    2013-10-25 10:27:31
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `ab_actionlog` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
--- Dumping data for table agileeap.ab_actionlog: 1,088 rows
+-- Dumping data for table agileeap.ab_actionlog: 1,091 rows
 /*!40000 ALTER TABLE `ab_actionlog` DISABLE KEYS */;
 INSERT INTO `ab_actionlog` (`ID`, `UserName`, `LogType`, `ClientIP`, `AppModule`, `Message`, `Content`, `Result`, `UserID`, `CreateTime`) VALUES
 	('980dc964-5ab7-4d49-b234-a13400c4242b', '', 1, '::1', 'AgileEAP.Infrastructure', '????????eClient!', NULL, 2, '', '2012-12-27 11:54:07'),
@@ -1120,7 +1120,10 @@ INSERT INTO `ab_actionlog` (`ID`, `UserName`, `LogType`, `ClientIP`, `AppModule`
 	('b0c265c0-254a-4b32-9489-79c293103671', '张强', 1, '', '', '保存资源成功', '{"id":"93d44726-cf70-4bd8-91d1-804b94825625","name":"工作流","type":1,"sortOrder":2,"parentID":"26c028bc-e986-43da-b1c8-906243c2891d","entry":"","url":"","icon":"","openMode":1,"showNavigation":0,"showToolBar":0,"parentName":"系统管理","authorized":false,"navigationTitle":null,"operates":[]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-09-28 18:21:43'),
 	('fdfb73b5-29a9-47f2-b0da-9b6790326c89', '张强', 1, '', '', '保存资源成功', '{"id":"93d44726-cf70-4bd8-91d1-804b94825625","name":"工作流","type":1,"sortOrder":2,"parentID":"26c028bc-e986-43da-b1c8-906243c2891d","entry":"","url":"","icon":"workflow/workflow.gif","openMode":1,"showNavigation":0,"showToolBar":0,"parentName":"系统管理","authorized":false,"navigationTitle":null,"operates":[]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-09-28 18:25:10'),
 	('8ac1f641-d0a5-4716-9a93-6c215679ce91', '张强', 1, '', '', '保存资源成功', '{"id":"a39c7717-cf9e-4dce-939c-8e088f6237f2","name":"流程配置","type":1,"sortOrder":1,"parentID":"93d44726-cf70-4bd8-91d1-804b94825625","entry":"","url":"","icon":"workflow-workflow-config.png","openMode":1,"showNavigation":0,"showToolBar":0,"parentName":"工作流","authorized":false,"navigationTitle":null,"operates":[]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-09-28 18:30:00'),
-	('eff294b3-948d-4615-8e7e-25a89e13c9d5', '张强', 1, '', '', '保存资源成功', '{"id":"94156629-f2fb-4202-97eb-8616675e2b90","name":"用户管理","type":1,"sortOrder":1,"parentID":"c766b6e7-b7d0-4a43-9b80-36928d8dd459","entry":"","url":"security/organization/manager","icon":"","openMode":1,"showNavigation":0,"showToolBar":1,"parentName":"权限管理","authorized":false,"navigationTitle":null,"operates":[{"id":"e7efe79c-5543-4fae-8589-a0640103fba3","name":"新增","command":"add","argument":"","isVerify":0,"sortOrder":1},{"id":"8a1d21a6-cb63-4802-b73f-9ead00fbb284","name":"修改","command":"update","argument":"","isVerify":1,"sortOrder":2},{"id":"85917bfb-9e02-4a32-af23-9e3700e5622d","name":"删除","command":"delete","argument":"","isVerify":1,"sortOrder":3},{"id":"6b957ddd-792a-48db-9980-7730b7d19232","name":"查询","command":"search","argument":"","isVerify":0,"sortOrder":4},{"id":"85bf99fd-3179-4722-a0c6-4885e28a8e92","name":"配置用户角色","command":"configRole","argument":"","isVerify":0,"sortOrder":5}]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-09-28 18:31:39');
+	('eff294b3-948d-4615-8e7e-25a89e13c9d5', '张强', 1, '', '', '保存资源成功', '{"id":"94156629-f2fb-4202-97eb-8616675e2b90","name":"用户管理","type":1,"sortOrder":1,"parentID":"c766b6e7-b7d0-4a43-9b80-36928d8dd459","entry":"","url":"security/organization/manager","icon":"","openMode":1,"showNavigation":0,"showToolBar":1,"parentName":"权限管理","authorized":false,"navigationTitle":null,"operates":[{"id":"e7efe79c-5543-4fae-8589-a0640103fba3","name":"新增","command":"add","argument":"","isVerify":0,"sortOrder":1},{"id":"8a1d21a6-cb63-4802-b73f-9ead00fbb284","name":"修改","command":"update","argument":"","isVerify":1,"sortOrder":2},{"id":"85917bfb-9e02-4a32-af23-9e3700e5622d","name":"删除","command":"delete","argument":"","isVerify":1,"sortOrder":3},{"id":"6b957ddd-792a-48db-9980-7730b7d19232","name":"查询","command":"search","argument":"","isVerify":0,"sortOrder":4},{"id":"85bf99fd-3179-4722-a0c6-4885e28a8e92","name":"配置用户角色","command":"configRole","argument":"","isVerify":0,"sortOrder":5}]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-09-28 18:31:39'),
+	('ad686ce2-ea12-4a7f-b31f-51199a1e38e1', '张强', 1, '', '', '保存资源成功', '{"id":"a39c7717-cf9e-4dce-939c-8e088f6237f2","name":"流程配置","type":1,"sortOrder":1,"parentID":"93d44726-cf70-4bd8-91d1-804b94825625","entry":"","url":"/workflow/process","icon":"workflow-workflow-config.png","openMode":1,"showNavigation":0,"showToolBar":0,"parentName":"工作流","authorized":false,"navigationTitle":null,"operates":[{"id":"e7efe79c-5543-4fae-8589-a0640103fba3","name":"新增","command":"add","argument":"","isVerify":0,"sortOrder":1},{"id":"8a1d21a6-cb63-4802-b73f-9ead00fbb284","name":"修改","command":"update","argument":"","isVerify":1,"sortOrder":2},{"id":"85917bfb-9e02-4a32-af23-9e3700e5622d","name":"删除","command":"delete","argument":"","isVerify":1,"sortOrder":3},{"id":"6b957ddd-792a-48db-9980-7730b7d19232","name":"查询","command":"search","argument":"","isVerify":0,"sortOrder":4}]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-10-24 16:54:45'),
+	('3e5b8590-987a-44eb-8829-aa239b84ac73', '张强', 1, '', '', '保存资源成功', '{"id":"a39c7717-cf9e-4dce-939c-8e088f6237f2","name":"流程配置","type":1,"sortOrder":1,"parentID":"93d44726-cf70-4bd8-91d1-804b94825625","entry":"","url":"workflow/process","icon":"workflow-workflow-config.png","openMode":1,"showNavigation":0,"showToolBar":0,"parentName":"工作流","authorized":false,"navigationTitle":null,"operates":[{"id":"e7efe79c-5543-4fae-8589-a0640103fba3","name":"新增","command":"add","argument":"","isVerify":0,"sortOrder":1},{"id":"8a1d21a6-cb63-4802-b73f-9ead00fbb284","name":"修改","command":"update","argument":"","isVerify":1,"sortOrder":2},{"id":"85917bfb-9e02-4a32-af23-9e3700e5622d","name":"删除","command":"delete","argument":"","isVerify":1,"sortOrder":3},{"id":"6b957ddd-792a-48db-9980-7730b7d19232","name":"查询","command":"search","argument":"","isVerify":0,"sortOrder":4}]}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-10-24 16:56:25'),
+	('5698de84-af21-49f6-9517-f84470949a0b', '张强', 1, '', '', '更新角色id={0}', '{"id":"36b6eb02-24fa-4424-b04c-a06e0137772f","userType":0,"loginName":"admin","name":"云平台管理员","password":"fcdfaa192fe3c22c8e6cfa7ddbc313de9a8f55fb","salt":"617cd4f9e55e15ef","expireTime":1339430400000,"status":1,"theme":"default","email":"","phone":"","orgID":"001","orgName":"新太科技","corpID":"","corpName":"新太科技","creator":"admin","createTime":1339498440000,"roleList":null}', 1, 'c9d597b9-112e-4a17-b802-41d8fb312790', '2013-10-25 10:18:54');
 /*!40000 ALTER TABLE `ab_actionlog` ENABLE KEYS */;
 
 
@@ -1891,7 +1894,7 @@ CREATE TABLE IF NOT EXISTS `ac_operator` (
 -- Dumping data for table agileeap.ac_operator: 418 rows
 /*!40000 ALTER TABLE `ac_operator` DISABLE KEYS */;
 INSERT INTO `ac_operator` (`ID`, `UserType`, `LoginName`, `Name`, `Password`, `ExpireTime`, `Phone`, `Status`, `Email`, `Theme`, `CorpID`, `CorpName`, `OrgName`, `OrgID`, `Salt`, `Creator`, `CreateTime`) VALUES
-	('36b6eb02-24fa-4424-b04c-a06e0137772f', 0, 'admin', '云平台管理员', 'b5ecccab1ece066c94eaa4ca3f7c65588fcbfebd', '2012-06-12 00:00:00', NULL, 1, NULL, 'Default', NULL, NULL, '新太科技', '001', 'b652e7582538d220', 'admin', '2012-06-12 18:54:00'),
+	('36b6eb02-24fa-4424-b04c-a06e0137772f', 0, 'admin', '云平台管理员', 'fcdfaa192fe3c22c8e6cfa7ddbc313de9a8f55fb', '2012-06-12 00:00:00', '', 1, '', 'default', '', '新太科技', '新太科技', '001', '617cd4f9e55e15ef', 'admin', '2012-06-12 18:54:00'),
 	('baidq', 1, 'baidq', '白达强', 'b5ecccab1ece066c94eaa4ca3f7c65588fcbfebd', NULL, NULL, 1, 'bdq@suntektech.com', 'Default', NULL, NULL, '开发中心华南工程区', '001001002001', 'b652e7582538d220', 'admin', '2012-06-11 17:41:47'),
 	('baisj', 1, 'baisj', '白世俊', 'b5ecccab1ece066c94eaa4ca3f7c65588fcbfebd', NULL, NULL, 1, 'bsj@suntektech.com', 'Default', NULL, NULL, '开发中心华东工程区', '001001002004', 'b652e7582538d220', 'admin', '2012-06-11 17:41:47'),
 	('bill', 1, 'bill', '毕丽丽', 'b5ecccab1ece066c94eaa4ca3f7c65588fcbfebd', NULL, NULL, 1, 'bll@suntektech.com', 'Default', NULL, NULL, '华南一区', '001003006', 'b652e7582538d220', 'admin', '2012-06-11 17:41:47'),
@@ -2324,7 +2327,7 @@ CREATE TABLE IF NOT EXISTS `ac_privilege` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
--- Dumping data for table agileeap.ac_privilege: 316 rows
+-- Dumping data for table agileeap.ac_privilege: 320 rows
 /*!40000 ALTER TABLE `ac_privilege` DISABLE KEYS */;
 INSERT INTO `ac_privilege` (`ID`, `Name`, `Type`, `ResourceID`, `OperateID`, `MetaDataID`, `SortOrder`) VALUES
 	('016897b4-665f-4c3a-a616-9edf00b6f13d', '虚拟机', 1, '016897b4-665f-4c3a-a616-9edf00b6f13d', '', '', 3),
@@ -2642,7 +2645,11 @@ INSERT INTO `ac_privilege` (`ID`, `Name`, `Type`, `ResourceID`, `OperateID`, `Me
 	('9ae95426-72d6-417c-9f0f-9b350abc7a5d', '流程监控', 1, '47a1ced5-a8b4-4a09-864b-fe9bd5a99165', '', '', 2),
 	('4c2f7c9c-9eb3-4e2f-973a-852601068ae8', '流程治理', 1, '92cc12b9-2ed7-4b2b-9fd1-91f2dc4c76fb', '', '', 3),
 	('6e87f315-6468-4ebd-8319-415598a6bbb9', '选择父资源', 2, '94c443c9-48b1-43ca-9bcf-963b740f9285', '', '', 2),
-	('46890033-a432-4714-bc0c-e6a7225e2558', '选择', 3, '94c443c9-48b1-43ca-9bcf-963b740f9285', 'choose', '', 1);
+	('46890033-a432-4714-bc0c-e6a7225e2558', '选择', 3, '94c443c9-48b1-43ca-9bcf-963b740f9285', 'choose', '', 1),
+	('40b9ab36-ac5c-44c4-bc58-67fd2fa439ab', '新增', 3, 'a39c7717-cf9e-4dce-939c-8e088f6237f2', 'e7efe79c-5543-4fae-8589-a0640103fba3', '', 1),
+	('0d5c8c7b-9995-4a04-96f8-43ff8ca1f79d', '修改', 3, 'a39c7717-cf9e-4dce-939c-8e088f6237f2', '8a1d21a6-cb63-4802-b73f-9ead00fbb284', '', 2),
+	('8630c558-886d-4002-8dee-4f61090010bf', '删除', 3, 'a39c7717-cf9e-4dce-939c-8e088f6237f2', '85917bfb-9e02-4a32-af23-9e3700e5622d', '', 3),
+	('cb233068-5687-46d5-a556-8e0d70a9542d', '查询', 3, 'a39c7717-cf9e-4dce-939c-8e088f6237f2', '6b957ddd-792a-48db-9980-7730b7d19232', '', 4);
 /*!40000 ALTER TABLE `ac_privilege` ENABLE KEYS */;
 
 
@@ -2680,7 +2687,7 @@ INSERT INTO `ac_resource` (`ID`, `Name`, `Type`, `ParentID`, `Entry`, `URL`, `So
 	('3ab77d5f-2fd0-4122-8851-6ffb30b7517e', '角色管理', 1, 'c766b6e7-b7d0-4a43-9b80-36928d8dd459', '', 'security/role', 3, '', 1, 0, 1),
 	('f88c1c60-a66a-4dc1-9fe0-2f1ad1d44705', '配置权限', 2, '3ab77d5f-2fd0-4122-8851-6ffb30b7517e', '', 'security/role/privilege', 1, '', 1, 0, 1),
 	('93d44726-cf70-4bd8-91d1-804b94825625', '工作流', 1, '26c028bc-e986-43da-b1c8-906243c2891d', '', '', 2, 'workflow/workflow.gif', 1, 0, 0),
-	('a39c7717-cf9e-4dce-939c-8e088f6237f2', '流程配置', 1, '93d44726-cf70-4bd8-91d1-804b94825625', '', '', 1, 'workflow-workflow-config.png', 1, 0, 0),
+	('a39c7717-cf9e-4dce-939c-8e088f6237f2', '流程配置', 1, '93d44726-cf70-4bd8-91d1-804b94825625', '', 'workflow/process', 1, 'workflow-workflow-config.png', 1, 0, 0),
 	('47a1ced5-a8b4-4a09-864b-fe9bd5a99165', '流程监控', 1, '93d44726-cf70-4bd8-91d1-804b94825625', '', '', 2, '', 1, 0, 0),
 	('92cc12b9-2ed7-4b2b-9fd1-91f2dc4c76fb', '流程治理', 1, '93d44726-cf70-4bd8-91d1-804b94825625', '', '', 3, '', 1, 0, 0),
 	('94c443c9-48b1-43ca-9bcf-963b740f9285', '选择父资源', 2, '4651f12a-d9f8-4a0c-8f6b-bb0e1751b887', '', 'security/resource/tree', 2, '', 1, 0, 1);
