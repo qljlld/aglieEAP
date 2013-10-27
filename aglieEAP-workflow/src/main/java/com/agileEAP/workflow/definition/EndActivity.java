@@ -1,8 +1,12 @@
 package com.agileEAP.workflow.definition;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-//C# TO JAVA CONVERTER TODO TASK: Java annotations will not correspond to .NET attributes:
 //[Remark("结束活动")]
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="activity")
 public class EndActivity extends Activity
 {
 	/** 

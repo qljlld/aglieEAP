@@ -2,11 +2,16 @@ package com.agileEAP.workflow.definition;
 
 import java.util.UUID;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /** 
  活动迁移定义类
  
 */
-
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Transition 
 {
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:

@@ -1,10 +1,15 @@
 package com.agileEAP.workflow.definition;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /** 
  活动样式
  
 */
-
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Style 
 {
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:

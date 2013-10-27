@@ -1,5 +1,8 @@
 package com.agileEAP.workflow.engine;
 
+import java.util.List;
+import java.util.Map;
+
 import com.agileEAP.workflow.definition.*;
 import com.agileEAP.workflow.entity.*;
 import com.agileEAP.data.PageDataResult;
@@ -43,7 +46,7 @@ public interface IWorkflowEngine
 	 @param processInstID 流程实例ID
 	 @param parameters 参数
 	*/
-	void StartAProcess(String processInstID, java.util.Map<String, Object> parameters);
+	void StartAProcess(String processInstID, Map<String, Object> parameters);
 
 	/** 
 	 开始启动一个流程
@@ -145,7 +148,7 @@ public interface IWorkflowEngine
 	 @param pageInfo 分页信息
 	 @return 
 	*/
-	PageDataResult GetMyWorkItems(String userID, java.util.Map<String, Object> parameters, String sortCommand, RequestPageData pageInfo, boolean includeAuto);
+	PageDataResult GetMyWorkItems(String userID, Map<String, Object> parameters, String sortCommand, RequestPageData pageInfo, boolean includeAuto);
 
 	/** 
 	 获取当前流程实例待执行工作项及参与者字典
@@ -153,7 +156,7 @@ public interface IWorkflowEngine
 	 @param processInstID 流程实例ID
 	 @return 
 	*/
-	java.util.Map<WorkItem, java.util.List<Operator>> GetActiveWorkItems(String processInstID);
+	Map<WorkItem, List<Operator>> GetActiveWorkItems(String processInstID);
 
 	/** 
 	 完成一个工作项
@@ -161,7 +164,7 @@ public interface IWorkflowEngine
 	 @param workItemID 工作项ID
 	 @param parameters 参数
 	*/
-	void CompleteWorkItem(String workItemID, java.util.Map<String, Object> parameters, IAssignParticipant assignParticipant);
+	void CompleteWorkItem(String workItemID, Map<String, Object> parameters, IAssignParticipant assignParticipant);
 
 	/** 
 	 委托代办工作项
@@ -211,7 +214,7 @@ public interface IWorkflowEngine
 	 @param activityID 当前活动ID
 	 @return 
 	*/
-	java.util.List<Activity> GetRollbackActivityList(String processDefID, String activityID);
+	List<Activity> GetRollbackActivityList(String processDefID, String activityID);
 
 	/** 
 	 退回工作项
@@ -236,7 +239,7 @@ public interface IWorkflowEngine
 	 @param user 当前用户
 	 @param srcActInst 源活动实例
 	*/
-	java.util.List<Activity> GetSkipActivityList(ShiroUser user, Activity srcAct);
+	List<Activity> GetSkipActivityList(ShiroUser user, Activity srcAct);
 
 	/** 
 	 跳到某个活动
@@ -251,7 +254,7 @@ public interface IWorkflowEngine
 	 
 	 @return 
 	*/
-	java.util.List<Participantor> GetRoleAndOrgParticipantors();
+	List<Participantor> GetRoleAndOrgParticipantors();
 
 	/** 
 	 获取某参与者类型下的所有参与者
@@ -260,5 +263,5 @@ public interface IWorkflowEngine
 	 @param parentID 父参与者ID
 	 @return 
 	*/
-	java.util.List<Participantor> GetPersonParticipantors(ParticipantorType parentType, String parentID);
+	List<Participantor> GetPersonParticipantors(ParticipantorType parentType, String parentID);
 }

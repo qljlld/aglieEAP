@@ -1,8 +1,15 @@
 package com.agileEAP.workflow.definition;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+//import org.eclipse.persistence.oxm.annotations.XmlCustomizer;
+
 /** 
  工作流活动基类
 */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Activity 
 {
 	/** 

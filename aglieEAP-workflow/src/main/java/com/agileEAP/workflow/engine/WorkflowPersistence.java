@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
-import java.io.StringReader;
 
-import javax.annotation.Resource;
 import javax.xml.bind.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.agileEAP.data.PageDataResult;
@@ -32,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Transactional
+@Component("workflowPersistence")
 public class WorkflowPersistence implements IWorkflowPersistence
 {
 	private Logger logger = LoggerFactory.getLogger(WorkflowPersistence.class);
@@ -61,20 +61,9 @@ public class WorkflowPersistence implements IWorkflowPersistence
 	*/
 	public final ProcessDefine GetProcessDefine(String processDefID)
 	{
-        JAXBContext jaxbContext;
-		try {
-			jaxbContext = JAXBContext.newInstance(new Class[] {ProcessDefine.class});
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			ProcessDef processDef = processDefRepository.get(processDefID);
-			
-			return (ProcessDefine) jaxbUnmarshaller.unmarshal(new StringReader(processDef.getContent()));
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			logger.error("init ProcessDefine error when processDefID="+processDefID,e);
-			e.printStackTrace();
-		}
+		ProcessDef processDef = processDefRepository.get(processDefID);
 		
-		return null;
+		return WFUtil.parseProcessDefine(processDef.getContent());
 	}
 
 	/** 

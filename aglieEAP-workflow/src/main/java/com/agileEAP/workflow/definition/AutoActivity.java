@@ -1,6 +1,12 @@
 package com.agileEAP.workflow.definition;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 //[Remark("自动活动")]
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="activity")
 public class AutoActivity extends Activity
 {
 

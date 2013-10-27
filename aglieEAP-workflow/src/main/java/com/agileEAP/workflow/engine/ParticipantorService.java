@@ -17,7 +17,7 @@ import com.agileEAP.security.repository.RoleRepository;
 import com.agileEAP.security.repository.OperatorRepository;
 import com.agileEAP.security.repository.OrganizationRepository;
 
-@Component
+@Component("participantorService")
 public class ParticipantorService implements IParticipantorService {
 	
 	@Autowired

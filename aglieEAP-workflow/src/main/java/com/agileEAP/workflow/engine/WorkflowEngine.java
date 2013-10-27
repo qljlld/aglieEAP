@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.agileEAP.data.PageDataResult;
 import com.agileEAP.data.RequestPageData;
@@ -41,6 +44,7 @@ import com.agileEAP.workflow.entity.WorkItem;
  工作流引擎
  
 */
+@Component("workflowEngine")
 public class WorkflowEngine implements IWorkflowEngine
 {
 	private Logger logger = LoggerFactory.getLogger(WorkflowEngine.class);
