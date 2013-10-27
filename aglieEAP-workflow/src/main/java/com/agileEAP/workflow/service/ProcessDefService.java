@@ -46,7 +46,11 @@ public class ProcessDefService {
     public void update(ProcessDef processDef) {
         processDefRepository.update(processDef);
     }
-
+    
+    void update(ProcessDef processDef,Map<String, Object> parameters){
+        processDefRepository.update(processDef,parameters);
+    }
+    
     public void save(ProcessDef processDef) {
         processDefRepository.save(processDef);
     }
@@ -58,4 +62,8 @@ public class ProcessDefService {
     public void batchDelete(List<String> ids) {
         processDefRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        processDefRepository.batchDelete(parameters);
+    }
 }

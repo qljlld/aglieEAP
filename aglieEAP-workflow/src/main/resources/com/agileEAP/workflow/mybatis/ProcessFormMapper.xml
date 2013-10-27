@@ -5,7 +5,7 @@
 <mapper namespace="com.agileEAP.workflow.repository.ProcessFormRepository">
 	<sql id="columns">
 		ID as id,
-		ProcessInstID as processInstID,
+		WorkItemID as workItemID,
 		BizTable as bizTable,
 		BizID as bizID,
 		KeyWord as keyWord,
@@ -13,20 +13,76 @@
 		Creator as creator   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.workItemID!=null">
+                WorkItemID =#{model.workItemID},
+            </if>
+            <if test="entity.bizTable!=null">
+                BizTable =#{model.bizTable},
+            </if>
+            <if test="entity.bizID!=null">
+                BizID =#{model.bizID},
+            </if>
+            <if test="entity.keyWord!=null">
+                KeyWord =#{model.keyWord},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+            <if test="entity.creator!=null">
+                Creator =#{model.creator},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.workItemID!=null">
+            and WorkItemID =#{parameters.workItemID}
+        </if>
+        <if test="parameters.bizTable!=null">
+            and BizTable like '${parameters.bizTable}%'
+        </if> 
+        <if test="parameters.bizID!=null">
+            and BizID =#{parameters.bizID}
+        </if>
+        <if test="parameters.keyWord!=null">
+            and KeyWord like '${parameters.keyWord}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.creator!=null">
+            and Creator like '${parameters.creator}%'
+        </if> 
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="processInstID  != null">
-            and ProcessInstID =#{processInstID}
+        <if test="workItemID  != null">
+            and WorkItemID =#{workItemID}
         </if>
-        <if test="bizTable  != null">
+        <if test="bizTable!=null">
             and BizTable like '${bizTable}%'
         </if> 
         <if test="bizID  != null">
             and BizID =#{bizID}
         </if>
-        <if test="keyWord  != null">
+        <if test="keyWord!=null">
             and KeyWord like '${keyWord}%'
         </if> 
         <if test="beginCreateTime!=null">
@@ -35,9 +91,12 @@
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
-        <if test="creator  != null">
+        <if test="creator!=null">
             and Creator like '${creator}%'
         </if> 
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
     </sql>
     
     <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.ProcessForm">
@@ -49,15 +108,22 @@
 
     <insert id="save" parameterType="com.agileEAP.workflow.entity.ProcessForm">
     	insert into  WF_ProcessForm (
-    	ID,ProcessInstID,BizTable,BizID,KeyWord,CreateTime,Creator)
-    	values (#{id},#{processInstID},#{bizTable},#{bizID},#{keyWord},#{createTime},#{creator})
+    	ID,WorkItemID,BizTable,BizID,KeyWord,CreateTime,Creator)
+    	values (#{id},#{workItemID},#{bizTable},#{bizID},#{keyWord},#{createTime},#{creator})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.ProcessForm">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.ProcessForm">
     	update WF_ProcessForm set
-    	ProcessInstID=#{processInstID},BizTable=#{bizTable},BizID=#{bizID},KeyWord=#{keyWord},CreateTime=#{createTime},Creator=#{creator}
+    	WorkItemID=#{workItemID},BizTable=#{bizTable},BizID=#{bizID},KeyWord=#{keyWord},CreateTime=#{createTime},Creator=#{creator}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_ProcessForm
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_ProcessForm where ID=#{id}
@@ -70,6 +136,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_ProcessForm where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessForm">

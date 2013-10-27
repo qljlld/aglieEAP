@@ -46,7 +46,11 @@ public class ExtendAttrService {
     public void update(ExtendAttr extendAttr) {
         extendAttrRepository.update(extendAttr);
     }
-
+    
+    void update(ExtendAttr extendAttr,Map<String, Object> parameters){
+        extendAttrRepository.update(extendAttr,parameters);
+    }
+    
     public void save(ExtendAttr extendAttr) {
         extendAttrRepository.save(extendAttr);
     }
@@ -58,4 +62,8 @@ public class ExtendAttrService {
     public void batchDelete(List<String> ids) {
         extendAttrRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        extendAttrRepository.batchDelete(parameters);
+    }
 }

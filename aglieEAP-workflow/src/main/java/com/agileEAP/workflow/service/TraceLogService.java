@@ -46,7 +46,11 @@ public class TraceLogService {
     public void update(TraceLog traceLog) {
         traceLogRepository.update(traceLog);
     }
-
+    
+    void update(TraceLog traceLog,Map<String, Object> parameters){
+        traceLogRepository.update(traceLog,parameters);
+    }
+    
     public void save(TraceLog traceLog) {
         traceLogRepository.save(traceLog);
     }
@@ -58,4 +62,8 @@ public class TraceLogService {
     public void batchDelete(List<String> ids) {
         traceLogRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        traceLogRepository.batchDelete(parameters);
+    }
 }

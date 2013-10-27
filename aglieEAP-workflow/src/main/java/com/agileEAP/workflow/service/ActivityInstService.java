@@ -46,7 +46,11 @@ public class ActivityInstService {
     public void update(ActivityInst activityInst) {
         activityInstRepository.update(activityInst);
     }
-
+    
+    void update(ActivityInst activityInst,Map<String, Object> parameters){
+        activityInstRepository.update(activityInst,parameters);
+    }
+    
     public void save(ActivityInst activityInst) {
         activityInstRepository.save(activityInst);
     }
@@ -58,4 +62,8 @@ public class ActivityInstService {
     public void batchDelete(List<String> ids) {
         activityInstRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        activityInstRepository.batchDelete(parameters);
+    }
 }

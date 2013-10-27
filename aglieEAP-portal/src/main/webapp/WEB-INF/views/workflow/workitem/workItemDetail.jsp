@@ -38,6 +38,12 @@
         	</div>
             </c:if>
             <div class="control-group">
+        		<label for="creatorName" class="control-label">创建者姓名:</label>
+        		<div class="controls">
+        		    <input type="text" id="creatorName" name="creatorName"  value="${workItem.creatorName}" placeholder="请输入创建者姓名" class="required" />
+                </div>
+        	</div>
+            <div class="control-group">
         		<label for="startTime" class="control-label">启动时间:</label>
         		<div class="controls">
                     <input type="text" id="startTime" name="startTime" onClick="WdatePicker()" value="${workItem.startTime}" placeholder="请输入启动时间" class="required"/>

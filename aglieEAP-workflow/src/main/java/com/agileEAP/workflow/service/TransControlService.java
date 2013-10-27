@@ -46,7 +46,11 @@ public class TransControlService {
     public void update(TransControl transControl) {
         transControlRepository.update(transControl);
     }
-
+    
+    void update(TransControl transControl,Map<String, Object> parameters){
+        transControlRepository.update(transControl,parameters);
+    }
+    
     public void save(TransControl transControl) {
         transControlRepository.save(transControl);
     }
@@ -58,4 +62,8 @@ public class TransControlService {
     public void batchDelete(List<String> ids) {
         transControlRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        transControlRepository.batchDelete(parameters);
+    }
 }

@@ -16,14 +16,91 @@
 		CreateTime as createTime   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{model.name},
+            </if>
+            <if test="entity.participantType!=null">
+                ParticipantType =#{model.participantType},
+            </if>
+            <if test="entity.participantID!=null">
+                ParticipantID =#{model.participantID},
+            </if>
+            <if test="entity.workItemID!=null">
+                WorkItemID =#{model.workItemID},
+            </if>
+            <if test="entity.workItemState!=null">
+                WorkItemState =#{model.workItemState},
+            </if>
+            <if test="entity.partiInType!=null">
+                PartiInType =#{model.partiInType},
+            </if>
+            <if test="entity.delegateType!=null">
+                DelegateType =#{model.delegateType},
+            </if>
+            <if test="entity.participantIndex!=null">
+                ParticipantIndex =#{model.participantIndex},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.participantType!=null">
+            and ParticipantType =#{parameters.participantType}
+        </if>
+        <if test="parameters.participantID!=null">
+            and ParticipantID =#{parameters.participantID}
+        </if>
+        <if test="parameters.workItemID!=null">
+            and WorkItemID =#{parameters.workItemID}
+        </if>
+        <if test="parameters.workItemState!=null">
+            and WorkItemState =#{parameters.workItemState}
+        </if>
+        <if test="parameters.partiInType!=null">
+            and PartiInType =#{parameters.partiInType}
+        </if>
+        <if test="parameters.delegateType!=null">
+            and DelegateType =#{parameters.delegateType}
+        </if>
+        <if test="parameters.beginParticipantIndex!=null">
+            <![CDATA[ and  ParticipantIndex >=#{parameters.beginParticipantIndex}]]>
+        </if>
+    	    <if test="parameters.endParticipantIndex!=null">
+            <![CDATA[ and  ParticipantIndex <=#{parameters.endParticipantIndex}]]>
+         </if>      
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="name  != null">
+        <if test="name!=null">
             and Name like '${name}%'
         </if> 
-        <if test="participantType  != null">
+        <if test="participantType!=null">
             and ParticipantType =#{participantType}
         </if>
         <if test="participantID  != null">
@@ -32,13 +109,13 @@
         <if test="workItemID  != null">
             and WorkItemID =#{workItemID}
         </if>
-        <if test="workItemState  != null">
+        <if test="workItemState!=null">
             and WorkItemState =#{workItemState}
         </if>
-        <if test="partiInType  != null">
+        <if test="partiInType!=null">
             and PartiInType =#{partiInType}
         </if>
-        <if test="delegateType  != null">
+        <if test="delegateType!=null">
             and DelegateType =#{delegateType}
         </if>
         <if test="beginParticipantIndex!=null">
@@ -52,6 +129,9 @@
         </if>
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -68,11 +148,18 @@
     	values (#{id},#{name},#{participantType},#{participantID},#{workItemID},#{workItemState},#{partiInType},#{delegateType},#{participantIndex},#{createTime})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.Participant">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.Participant">
     	update WF_Participant set
     	Name=#{name},ParticipantType=#{participantType},ParticipantID=#{participantID},WorkItemID=#{workItemID},WorkItemState=#{workItemState},PartiInType=#{partiInType},DelegateType=#{delegateType},ParticipantIndex=#{participantIndex},CreateTime=#{createTime}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_Participant
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_Participant where ID=#{id}
@@ -85,6 +172,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_Participant where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Participant">

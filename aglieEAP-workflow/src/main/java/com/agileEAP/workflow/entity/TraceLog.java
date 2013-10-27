@@ -49,6 +49,11 @@ public  class TraceLog {
     * 消息
     */
     private String message;
+    /**
+    * 创建时间
+    */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     public String  getId()
     {
@@ -140,5 +145,14 @@ public  class TraceLog {
     public void setMessage(String  message)
     {
         this.message=message;
+    }
+    public Date  getCreateTime()
+    {
+        return  this.createTime;
+    }
+        
+    public void setCreateTime(Date  createTime)
+    {
+        this.createTime=createTime;
     }
 }

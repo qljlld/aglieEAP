@@ -64,6 +64,12 @@
                 </div>
         	</div>
             <div class="control-group">
+        		<label for="processInstName" class="control-label">流程实例名称:</label>
+        		<div class="controls">
+        		    <input type="text" id="processInstName" name="processInstName"  value="${transition.processInstName}" placeholder="请输入流程实例名称" class="required" />
+                </div>
+        	</div>
+            <div class="control-group">
         		<label for="transTime" class="control-label">迁移时间:</label>
         		<div class="controls">
                     <input type="text" id="transTime" name="transTime" onClick="WdatePicker()" value="${transition.transTime}" />

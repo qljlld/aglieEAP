@@ -43,7 +43,7 @@
 			<groupId>com.aglieEAP</groupId>
 			<artifactId>aglieEAP-workflow</artifactId>
 			<version>${aglieEAP.version}</version>
-		</dependency>		
+		</dependency>
 		
 		<!-- <dependency> <groupId>com.agileEAP</groupId> <artifactId>agileEAP-test</artifactId> 
 			<scope>compile</scope> </dependency> -->

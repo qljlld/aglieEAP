@@ -12,24 +12,74 @@
 		AgentID as agentID   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.type!=null">
+                Type =#{model.type},
+            </if>
+            <if test="entity.relatedBizID!=null">
+                RelatedBizID =#{model.relatedBizID},
+            </if>
+            <if test="entity.isValid!=null">
+                IsValid =#{model.isValid},
+            </if>
+            <if test="entity.agentPrivilege!=null">
+                AgentPrivilege =#{model.agentPrivilege},
+            </if>
+            <if test="entity.agentID!=null">
+                AgentID =#{model.agentID},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.type!=null">
+            and Type =#{parameters.type}
+        </if>
+        <if test="parameters.relatedBizID!=null">
+            and RelatedBizID =#{parameters.relatedBizID}
+        </if>
+        <if test="parameters.isValid!=null">
+            and IsValid =#{parameters.isValid}
+        </if>
+        <if test="parameters.agentPrivilege!=null">
+            and AgentPrivilege =#{parameters.agentPrivilege}
+        </if>
+        <if test="parameters.agentID!=null">
+            and AgentID =#{parameters.agentID}
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="type  != null">
+        <if test="type!=null">
             and Type =#{type}
         </if>
         <if test="relatedBizID  != null">
             and RelatedBizID =#{relatedBizID}
         </if>
-        <if test="isValid  != null">
+        <if test="isValid!=null">
             and IsValid =#{isValid}
         </if>
-        <if test="agentPrivilege  != null">
+        <if test="agentPrivilege!=null">
             and AgentPrivilege =#{agentPrivilege}
         </if>
         <if test="agentID  != null">
             and AgentID =#{agentID}
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -46,11 +96,18 @@
     	values (#{id},#{type},#{relatedBizID},#{isValid},#{agentPrivilege},#{agentID})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.AgentItem">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.AgentItem">
     	update WF_AgentItem set
     	Type=#{type},RelatedBizID=#{relatedBizID},IsValid=#{isValid},AgentPrivilege=#{agentPrivilege},AgentID=#{agentID}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_AgentItem
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_AgentItem where ID=#{id}
@@ -63,6 +120,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_AgentItem where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.AgentItem">

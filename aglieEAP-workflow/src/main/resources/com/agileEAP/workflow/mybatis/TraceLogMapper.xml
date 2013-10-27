@@ -17,17 +17,97 @@
 		CreateTime as createTime   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.actionType!=null">
+                ActionType =#{model.actionType},
+            </if>
+            <if test="entity.operator!=null">
+                Operator =#{model.operator},
+            </if>
+            <if test="entity.clientIP!=null">
+                ClientIP =#{model.clientIP},
+            </if>
+            <if test="entity.processID!=null">
+                ProcessID =#{model.processID},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{model.processInstID},
+            </if>
+            <if test="entity.activityID!=null">
+                ActivityID =#{model.activityID},
+            </if>
+            <if test="entity.activityInstID!=null">
+                ActivityInstID =#{model.activityInstID},
+            </if>
+            <if test="entity.workItemID!=null">
+                WorkItemID =#{model.workItemID},
+            </if>
+            <if test="entity.message!=null">
+                Message =#{model.message},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.actionType!=null">
+            and ActionType =#{parameters.actionType}
+        </if>
+        <if test="parameters.operator!=null">
+            and Operator like '${parameters.operator}%'
+        </if> 
+        <if test="parameters.clientIP!=null">
+            and ClientIP like '${parameters.clientIP}%'
+        </if> 
+        <if test="parameters.processID!=null">
+            and ProcessID =#{parameters.processID}
+        </if>
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.activityID!=null">
+            and ActivityID =#{parameters.activityID}
+        </if>
+        <if test="parameters.activityInstID!=null">
+            and ActivityInstID =#{parameters.activityInstID}
+        </if>
+        <if test="parameters.workItemID!=null">
+            and WorkItemID =#{parameters.workItemID}
+        </if>
+        <if test="parameters.message!=null">
+            and Message like '${parameters.message}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="actionType  != null">
+        <if test="actionType!=null">
             and ActionType =#{actionType}
         </if>
-        <if test="operator  != null">
+        <if test="operator!=null">
             and Operator like '${operator}%'
         </if> 
-        <if test="clientIP  != null">
+        <if test="clientIP!=null">
             and ClientIP like '${clientIP}%'
         </if> 
         <if test="processID  != null">
@@ -45,7 +125,7 @@
         <if test="workItemID  != null">
             and WorkItemID =#{workItemID}
         </if>
-        <if test="message  != null">
+        <if test="message!=null">
             and Message like '${message}%'
         </if> 
         <if test="beginCreateTime!=null">
@@ -53,6 +133,9 @@
         </if>
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -69,11 +152,18 @@
     	values (#{id},#{actionType},#{operator},#{clientIP},#{processID},#{processInstID},#{activityID},#{activityInstID},#{workItemID},#{message},#{createTime})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.TraceLog">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.TraceLog">
     	update WF_TraceLog set
     	ActionType=#{actionType},Operator=#{operator},ClientIP=#{clientIP},ProcessID=#{processID},ProcessInstID=#{processInstID},ActivityID=#{activityID},ActivityInstID=#{activityInstID},WorkItemID=#{workItemID},Message=#{message},CreateTime=#{createTime}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_TraceLog
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_TraceLog where ID=#{id}
@@ -86,6 +176,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_TraceLog where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">

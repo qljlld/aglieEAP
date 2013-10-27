@@ -31,6 +31,10 @@ public  class WorkItem {
     */
     private String creator;
     /**
+    * 创建者姓名
+    */
+    private String creatorName;
+    /**
     * 启动时间
     */
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -169,6 +173,15 @@ public  class WorkItem {
     public void setCreator(String  creator)
     {
         this.creator=creator;
+    }
+    public String  getCreatorName()
+    {
+        return  this.creatorName;
+    }
+        
+    public void setCreatorName(String  creatorName)
+    {
+        this.creatorName=creatorName;
     }
     public Date  getStartTime()
     {

@@ -18,6 +18,92 @@
 		TransTime as transTime   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.srcActID!=null">
+                SrcActID =#{model.srcActID},
+            </if>
+            <if test="entity.srcActInstID!=null">
+                SrcActInstID =#{model.srcActInstID},
+            </if>
+            <if test="entity.srcActInstName!=null">
+                SrcActInstName =#{model.srcActInstName},
+            </if>
+            <if test="entity.srcActName!=null">
+                SrcActName =#{model.srcActName},
+            </if>
+            <if test="entity.destActInstID!=null">
+                DestActInstID =#{model.destActInstID},
+            </if>
+            <if test="entity.destActInstName!=null">
+                DestActInstName =#{model.destActInstName},
+            </if>
+            <if test="entity.destActID!=null">
+                DestActID =#{model.destActID},
+            </if>
+            <if test="entity.destActName!=null">
+                DestActName =#{model.destActName},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{model.processInstID},
+            </if>
+            <if test="entity.processInstName!=null">
+                ProcessInstName =#{model.processInstName},
+            </if>
+            <if test="entity.transTime!=null">
+                TransTime =#{model.transTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.srcActID!=null">
+            and SrcActID =#{parameters.srcActID}
+        </if>
+        <if test="parameters.srcActInstID!=null">
+            and SrcActInstID =#{parameters.srcActInstID}
+        </if>
+        <if test="parameters.srcActInstName!=null">
+            and SrcActInstName like '${parameters.srcActInstName}%'
+        </if> 
+        <if test="parameters.srcActName!=null">
+            and SrcActName like '${parameters.srcActName}%'
+        </if> 
+        <if test="parameters.destActInstID!=null">
+            and DestActInstID =#{parameters.destActInstID}
+        </if>
+        <if test="parameters.destActInstName!=null">
+            and DestActInstName like '${parameters.destActInstName}%'
+        </if> 
+        <if test="parameters.destActID!=null">
+            and DestActID =#{parameters.destActID}
+        </if>
+        <if test="parameters.destActName!=null">
+            and DestActName like '${parameters.destActName}%'
+        </if> 
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.processInstName!=null">
+            and ProcessInstName like '${parameters.processInstName}%'
+        </if> 
+        <if test="parameters.beginTransTime!=null">
+            <![CDATA[ and TransTime>= to_date('${parameters.beginTransTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endTransTime!=null">
+            <![CDATA[ and TransTime<= to_date('${parameters.endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
@@ -28,28 +114,28 @@
         <if test="srcActInstID  != null">
             and SrcActInstID =#{srcActInstID}
         </if>
-        <if test="srcActInstName  != null">
+        <if test="srcActInstName!=null">
             and SrcActInstName like '${srcActInstName}%'
         </if> 
-        <if test="srcActName  != null">
+        <if test="srcActName!=null">
             and SrcActName like '${srcActName}%'
         </if> 
         <if test="destActInstID  != null">
             and DestActInstID =#{destActInstID}
         </if>
-        <if test="destActInstName  != null">
+        <if test="destActInstName!=null">
             and DestActInstName like '${destActInstName}%'
         </if> 
         <if test="destActID  != null">
             and DestActID =#{destActID}
         </if>
-        <if test="destActName  != null">
+        <if test="destActName!=null">
             and DestActName like '${destActName}%'
         </if> 
         <if test="processInstID  != null">
             and ProcessInstID =#{processInstID}
         </if>
-        <if test="processInstName  != null">
+        <if test="processInstName!=null">
             and ProcessInstName like '${processInstName}%'
         </if> 
         <if test="beginTransTime!=null">
@@ -57,6 +143,9 @@
         </if>
     	    <if test="endTransTime!=null">
             <![CDATA[ and TransTime<= to_date('${endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -73,11 +162,18 @@
     	values (#{id},#{srcActID},#{srcActInstID},#{srcActInstName},#{srcActName},#{destActInstID},#{destActInstName},#{destActID},#{destActName},#{processInstID},#{processInstName},#{transTime})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.Transition">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.Transition">
     	update WF_Transition set
     	SrcActID=#{srcActID},SrcActInstID=#{srcActInstID},SrcActInstName=#{srcActInstName},SrcActName=#{srcActName},DestActInstID=#{destActInstID},DestActInstName=#{destActInstName},DestActID=#{destActID},DestActName=#{destActName},ProcessInstID=#{processInstID},ProcessInstName=#{processInstName},TransTime=#{transTime}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_Transition
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_Transition where ID=#{id}
@@ -90,6 +186,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_Transition where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Transition">

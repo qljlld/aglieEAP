@@ -46,7 +46,11 @@ public class AgentItemService {
     public void update(AgentItem agentItem) {
         agentItemRepository.update(agentItem);
     }
-
+    
+    void update(AgentItem agentItem,Map<String, Object> parameters){
+        agentItemRepository.update(agentItem,parameters);
+    }
+    
     public void save(AgentItem agentItem) {
         agentItemRepository.save(agentItem);
     }
@@ -58,4 +62,8 @@ public class AgentItemService {
     public void batchDelete(List<String> ids) {
         agentItemRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        agentItemRepository.batchDelete(parameters);
+    }
 }

@@ -46,7 +46,11 @@ public class AgentCandidateService {
     public void update(AgentCandidate agentCandidate) {
         agentCandidateRepository.update(agentCandidate);
     }
-
+    
+    void update(AgentCandidate agentCandidate,Map<String, Object> parameters){
+        agentCandidateRepository.update(agentCandidate,parameters);
+    }
+    
     public void save(AgentCandidate agentCandidate) {
         agentCandidateRepository.save(agentCandidate);
     }
@@ -58,4 +62,8 @@ public class AgentCandidateService {
     public void batchDelete(List<String> ids) {
         agentCandidateRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        agentCandidateRepository.batchDelete(parameters);
+    }
 }

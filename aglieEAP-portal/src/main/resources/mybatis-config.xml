@@ -12,7 +12,7 @@
     	<plugin interceptor="com.agileEAP.data.mybatis.PaginationInterceptor">
 <!--     	   value="mssql58|mssql12|oracle|mysql|db2" -->
             <property name="dialect" value="mysql" />
-            <property name="sqlPattern" value=".*searchByPage"/>
+            <property name="sqlPattern" value=".*ByPage"/>
     	</plugin>
     </plugins> 
     

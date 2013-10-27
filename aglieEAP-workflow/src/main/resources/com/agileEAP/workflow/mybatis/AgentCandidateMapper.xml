@@ -11,6 +11,47 @@
 		AgentFrom as agentFrom   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.agentToID!=null">
+                AgentToID =#{model.agentToID},
+            </if>
+            <if test="entity.agentToName!=null">
+                AgentToName =#{model.agentToName},
+            </if>
+            <if test="entity.agentToType!=null">
+                AgentToType =#{model.agentToType},
+            </if>
+            <if test="entity.agentFrom!=null">
+                AgentFrom =#{model.agentFrom},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.agentToID!=null">
+            and AgentToID =#{parameters.agentToID}
+        </if>
+        <if test="parameters.agentToName!=null">
+            and AgentToName like '${parameters.agentToName}%'
+        </if> 
+        <if test="parameters.agentToType!=null">
+            and AgentToType =#{parameters.agentToType}
+        </if>
+        <if test="parameters.agentFrom!=null">
+            and AgentFrom like '${parameters.agentFrom}%'
+        </if> 
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
@@ -18,15 +59,18 @@
         <if test="agentToID  != null">
             and AgentToID =#{agentToID}
         </if>
-        <if test="agentToName  != null">
+        <if test="agentToName!=null">
             and AgentToName like '${agentToName}%'
         </if> 
-        <if test="agentToType  != null">
+        <if test="agentToType!=null">
             and AgentToType =#{agentToType}
         </if>
-        <if test="agentFrom  != null">
+        <if test="agentFrom!=null">
             and AgentFrom like '${agentFrom}%'
         </if> 
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
     </sql>
     
     <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.AgentCandidate">
@@ -42,11 +86,18 @@
     	values (#{id},#{agentToID},#{agentToName},#{agentToType},#{agentFrom})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.AgentCandidate">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.AgentCandidate">
     	update WF_AgentCandidate set
     	AgentToID=#{agentToID},AgentToName=#{agentToName},AgentToType=#{agentToType},AgentFrom=#{agentFrom}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_AgentCandidate
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_AgentCandidate where ID=#{id}
@@ -59,6 +110,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_AgentCandidate where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.AgentCandidate">

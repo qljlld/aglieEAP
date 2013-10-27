@@ -46,7 +46,11 @@ public class ParticipantService {
     public void update(Participant participant) {
         participantRepository.update(participant);
     }
-
+    
+    void update(Participant participant,Map<String, Object> parameters){
+        participantRepository.update(participant,parameters);
+    }
+    
     public void save(Participant participant) {
         participantRepository.save(participant);
     }
@@ -58,4 +62,8 @@ public class ParticipantService {
     public void batchDelete(List<String> ids) {
         participantRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        participantRepository.batchDelete(parameters);
+    }
 }

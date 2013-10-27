@@ -16,20 +16,100 @@
 		CreateTime as createTime   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.agentFrom!=null">
+                AgentFrom =#{model.agentFrom},
+            </if>
+            <if test="entity.agentTo!=null">
+                AgentTo =#{model.agentTo},
+            </if>
+            <if test="entity.agentToType!=null">
+                AgentToType =#{model.agentToType},
+            </if>
+            <if test="entity.agentType!=null">
+                AgentType =#{model.agentType},
+            </if>
+            <if test="entity.startTime!=null">
+                StartTime =#{model.startTime},
+            </if>
+            <if test="entity.endTime!=null">
+                EndTime =#{model.endTime},
+            </if>
+            <if test="entity.agentReason!=null">
+                AgentReason =#{model.agentReason},
+            </if>
+            <if test="entity.creator!=null">
+                Creator =#{model.creator},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.agentFrom!=null">
+            and AgentFrom like '${parameters.agentFrom}%'
+        </if> 
+        <if test="parameters.agentTo!=null">
+            and AgentTo like '${parameters.agentTo}%'
+        </if> 
+        <if test="parameters.agentToType!=null">
+            and AgentToType =#{parameters.agentToType}
+        </if>
+        <if test="parameters.agentType!=null">
+            and AgentType =#{parameters.agentType}
+        </if>
+        <if test="parameters.beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${parameters.beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${parameters.endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${parameters.beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${parameters.endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.agentReason!=null">
+            and AgentReason like '${parameters.agentReason}%'
+        </if> 
+        <if test="parameters.creator!=null">
+            and Creator like '${parameters.creator}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="agentFrom  != null">
+        <if test="agentFrom!=null">
             and AgentFrom like '${agentFrom}%'
         </if> 
-        <if test="agentTo  != null">
+        <if test="agentTo!=null">
             and AgentTo like '${agentTo}%'
         </if> 
-        <if test="agentToType  != null">
+        <if test="agentToType!=null">
             and AgentToType =#{agentToType}
         </if>
-        <if test="agentType  != null">
+        <if test="agentType!=null">
             and AgentType =#{agentType}
         </if>
         <if test="beginStartTime!=null">
@@ -44,10 +124,10 @@
     	    <if test="endEndTime!=null">
             <![CDATA[ and EndTime<= to_date('${endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
-        <if test="agentReason  != null">
+        <if test="agentReason!=null">
             and AgentReason like '${agentReason}%'
         </if> 
-        <if test="creator  != null">
+        <if test="creator!=null">
             and Creator like '${creator}%'
         </if> 
         <if test="beginCreateTime!=null">
@@ -55,6 +135,9 @@
         </if>
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -71,11 +154,18 @@
     	values (#{id},#{agentFrom},#{agentTo},#{agentToType},#{agentType},#{startTime},#{endTime},#{agentReason},#{creator},#{createTime})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.Agent">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.Agent">
     	update WF_Agent set
     	AgentFrom=#{agentFrom},AgentTo=#{agentTo},AgentToType=#{agentToType},AgentType=#{agentType},StartTime=#{startTime},EndTime=#{endTime},AgentReason=#{agentReason},Creator=#{creator},CreateTime=#{createTime}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_Agent
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_Agent where ID=#{id}
@@ -88,6 +178,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_Agent where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Agent">

@@ -175,6 +175,11 @@
                 field : "message",
                 title : "消息"
             }
+                    ,{
+                field : "createTime",
+                title : "创建时间",
+                template: '#= kendo.toString(new Date(createTime),"yyyy-MM-dd HH:mm:ss")#'
+            }
          ]
         });
 

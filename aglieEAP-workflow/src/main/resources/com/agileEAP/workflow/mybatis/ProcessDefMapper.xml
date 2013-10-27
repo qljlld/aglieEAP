@@ -21,38 +21,145 @@
 		Modifier as modifier   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{model.name},
+            </if>
+            <if test="entity.text!=null">
+                Text =#{model.text},
+            </if>
+            <if test="entity.content!=null">
+                Content =#{model.content},
+            </if>
+            <if test="entity.categoryID!=null">
+                CategoryID =#{model.categoryID},
+            </if>
+            <if test="entity.currentState!=null">
+                CurrentState =#{model.currentState},
+            </if>
+            <if test="entity.currentFlag!=null">
+                CurrentFlag =#{model.currentFlag},
+            </if>
+            <if test="entity.startor!=null">
+                Startor =#{model.startor},
+            </if>
+            <if test="entity.isActive!=null">
+                IsActive =#{model.isActive},
+            </if>
+            <if test="entity.version!=null">
+                Version =#{model.version},
+            </if>
+            <if test="entity.description!=null">
+                Description =#{model.description},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+            <if test="entity.creator!=null">
+                Creator =#{model.creator},
+            </if>
+            <if test="entity.modifyTime!=null">
+                ModifyTime =#{model.modifyTime},
+            </if>
+            <if test="entity.modifier!=null">
+                Modifier =#{model.modifier},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.text!=null">
+            and Text like '${parameters.text}%'
+        </if> 
+        <if test="parameters.content!=null">
+            and Content like '${parameters.content}%'
+        </if> 
+        <if test="parameters.categoryID!=null">
+            and CategoryID =#{parameters.categoryID}
+        </if>
+        <if test="parameters.currentState!=null">
+            and CurrentState =#{parameters.currentState}
+        </if>
+        <if test="parameters.currentFlag!=null">
+            and CurrentFlag =#{parameters.currentFlag}
+        </if>
+        <if test="parameters.startor!=null">
+            and Startor like '${parameters.startor}%'
+        </if> 
+        <if test="parameters.isActive!=null">
+            and IsActive =#{parameters.isActive}
+        </if>
+        <if test="parameters.version!=null">
+            and Version like '${parameters.version}%'
+        </if> 
+        <if test="parameters.description!=null">
+            and Description like '${parameters.description}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.creator!=null">
+            and Creator like '${parameters.creator}%'
+        </if> 
+        <if test="parameters.beginModifyTime!=null">
+            <![CDATA[ and ModifyTime>= to_date('${parameters.beginModifyTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endModifyTime!=null">
+            <![CDATA[ and ModifyTime<= to_date('${parameters.endModifyTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.modifier!=null">
+            and Modifier like '${parameters.modifier}%'
+        </if> 
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="name  != null">
+        <if test="name!=null">
             and Name like '${name}%'
         </if> 
-        <if test="text  != null">
+        <if test="text!=null">
             and Text like '${text}%'
         </if> 
-        <if test="content  != null">
+        <if test="content!=null">
             and Content like '${content}%'
         </if> 
         <if test="categoryID  != null">
             and CategoryID =#{categoryID}
         </if>
-        <if test="currentState  != null">
+        <if test="currentState!=null">
             and CurrentState =#{currentState}
         </if>
-        <if test="currentFlag  != null">
+        <if test="currentFlag!=null">
             and CurrentFlag =#{currentFlag}
         </if>
-        <if test="startor  != null">
+        <if test="startor!=null">
             and Startor like '${startor}%'
         </if> 
-        <if test="isActive  != null">
+        <if test="isActive!=null">
             and IsActive =#{isActive}
         </if>
-        <if test="version  != null">
+        <if test="version!=null">
             and Version like '${version}%'
         </if> 
-        <if test="description  != null">
+        <if test="description!=null">
             and Description like '${description}%'
         </if> 
         <if test="beginCreateTime!=null">
@@ -61,7 +168,7 @@
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
-        <if test="creator  != null">
+        <if test="creator!=null">
             and Creator like '${creator}%'
         </if> 
         <if test="beginModifyTime!=null">
@@ -70,9 +177,12 @@
     	    <if test="endModifyTime!=null">
             <![CDATA[ and ModifyTime<= to_date('${endModifyTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
-        <if test="modifier  != null">
+        <if test="modifier!=null">
             and Modifier like '${modifier}%'
         </if> 
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
     </sql>
     
     <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.ProcessDef">
@@ -88,11 +198,18 @@
     	values (#{id},#{name},#{text},#{content},#{categoryID},#{currentState},#{currentFlag},#{startor},#{isActive},#{version},#{description},#{createTime},#{creator},#{modifyTime},#{modifier})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.ProcessDef">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.ProcessDef">
     	update WF_ProcessDef set
     	Name=#{name},Text=#{text},Content=#{content},CategoryID=#{categoryID},CurrentState=#{currentState},CurrentFlag=#{currentFlag},Startor=#{startor},IsActive=#{isActive},Version=#{version},Description=#{description},CreateTime=#{createTime},Creator=#{creator},ModifyTime=#{modifyTime},Modifier=#{modifier}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_ProcessDef
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_ProcessDef where ID=#{id}
@@ -105,6 +222,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_ProcessDef where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessDef">

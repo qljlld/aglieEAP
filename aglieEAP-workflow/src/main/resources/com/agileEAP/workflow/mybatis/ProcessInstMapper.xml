@@ -24,17 +24,157 @@
 		CreateTime as createTime   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{model.name},
+            </if>
+            <if test="entity.processDefID!=null">
+                ProcessDefID =#{model.processDefID},
+            </if>
+            <if test="entity.processDefName!=null">
+                ProcessDefName =#{model.processDefName},
+            </if>
+            <if test="entity.parentProcessID!=null">
+                ParentProcessID =#{model.parentProcessID},
+            </if>
+            <if test="entity.parentActivityID!=null">
+                ParentActivityID =#{model.parentActivityID},
+            </if>
+            <if test="entity.currentState!=null">
+                CurrentState =#{model.currentState},
+            </if>
+            <if test="entity.limitTime!=null">
+                LimitTime =#{model.limitTime},
+            </if>
+            <if test="entity.startTime!=null">
+                StartTime =#{model.startTime},
+            </if>
+            <if test="entity.endTime!=null">
+                EndTime =#{model.endTime},
+            </if>
+            <if test="entity.finalTime!=null">
+                FinalTime =#{model.finalTime},
+            </if>
+            <if test="entity.remindTime!=null">
+                RemindTime =#{model.remindTime},
+            </if>
+            <if test="entity.isTimeOut!=null">
+                IsTimeOut =#{model.isTimeOut},
+            </if>
+            <if test="entity.timeOutTime!=null">
+                TimeOutTime =#{model.timeOutTime},
+            </if>
+            <if test="entity.processVersion!=null">
+                ProcessVersion =#{model.processVersion},
+            </if>
+            <if test="entity.description!=null">
+                Description =#{model.description},
+            </if>
+            <if test="entity.creator!=null">
+                Creator =#{model.creator},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.processDefID!=null">
+            and ProcessDefID =#{parameters.processDefID}
+        </if>
+        <if test="parameters.processDefName!=null">
+            and ProcessDefName like '${parameters.processDefName}%'
+        </if> 
+        <if test="parameters.parentProcessID!=null">
+            and ParentProcessID =#{parameters.parentProcessID}
+        </if>
+        <if test="parameters.parentActivityID!=null">
+            and ParentActivityID =#{parameters.parentActivityID}
+        </if>
+        <if test="parameters.currentState!=null">
+            and CurrentState =#{parameters.currentState}
+        </if>
+        <if test="parameters.beginLimitTime!=null">
+            <![CDATA[ and LimitTime>= to_date('${parameters.beginLimitTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endLimitTime!=null">
+            <![CDATA[ and LimitTime<= to_date('${parameters.endLimitTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${parameters.beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${parameters.endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${parameters.beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${parameters.endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginFinalTime!=null">
+            <![CDATA[ and FinalTime>= to_date('${parameters.beginFinalTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endFinalTime!=null">
+            <![CDATA[ and FinalTime<= to_date('${parameters.endFinalTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginRemindTime!=null">
+            <![CDATA[ and RemindTime>= to_date('${parameters.beginRemindTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endRemindTime!=null">
+            <![CDATA[ and RemindTime<= to_date('${parameters.endRemindTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.isTimeOut!=null">
+            and IsTimeOut =#{parameters.isTimeOut}
+        </if>
+        <if test="parameters.beginTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime>= to_date('${parameters.beginTimeOutTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime<= to_date('${parameters.endTimeOutTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.processVersion!=null">
+            and ProcessVersion like '${parameters.processVersion}%'
+        </if> 
+        <if test="parameters.description!=null">
+            and Description like '${parameters.description}%'
+        </if> 
+        <if test="parameters.creator!=null">
+            and Creator like '${parameters.creator}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="name  != null">
+        <if test="name!=null">
             and Name like '${name}%'
         </if> 
         <if test="processDefID  != null">
             and ProcessDefID =#{processDefID}
         </if>
-        <if test="processDefName  != null">
+        <if test="processDefName!=null">
             and ProcessDefName like '${processDefName}%'
         </if> 
         <if test="parentProcessID  != null">
@@ -43,7 +183,7 @@
         <if test="parentActivityID  != null">
             and ParentActivityID =#{parentActivityID}
         </if>
-        <if test="currentState  != null">
+        <if test="currentState!=null">
             and CurrentState =#{currentState}
         </if>
         <if test="beginLimitTime!=null">
@@ -76,7 +216,7 @@
     	    <if test="endRemindTime!=null">
             <![CDATA[ and RemindTime<= to_date('${endRemindTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
-        <if test="isTimeOut  != null">
+        <if test="isTimeOut!=null">
             and IsTimeOut =#{isTimeOut}
         </if>
         <if test="beginTimeOutTime!=null">
@@ -85,13 +225,13 @@
     	    <if test="endTimeOutTime!=null">
             <![CDATA[ and TimeOutTime<= to_date('${endTimeOutTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
-        <if test="processVersion  != null">
+        <if test="processVersion!=null">
             and ProcessVersion like '${processVersion}%'
         </if> 
-        <if test="description  != null">
+        <if test="description!=null">
             and Description like '${description}%'
         </if> 
-        <if test="creator  != null">
+        <if test="creator!=null">
             and Creator like '${creator}%'
         </if> 
         <if test="beginCreateTime!=null">
@@ -99,6 +239,9 @@
         </if>
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -115,11 +258,18 @@
     	values (#{id},#{name},#{processDefID},#{processDefName},#{parentProcessID},#{parentActivityID},#{currentState},#{limitTime},#{startTime},#{endTime},#{finalTime},#{remindTime},#{isTimeOut},#{timeOutTime},#{processVersion},#{description},#{creator},#{createTime})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.ProcessInst">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.ProcessInst">
     	update WF_ProcessInst set
     	Name=#{name},ProcessDefID=#{processDefID},ProcessDefName=#{processDefName},ParentProcessID=#{parentProcessID},ParentActivityID=#{parentActivityID},CurrentState=#{currentState},LimitTime=#{limitTime},StartTime=#{startTime},EndTime=#{endTime},FinalTime=#{finalTime},RemindTime=#{remindTime},IsTimeOut=#{isTimeOut},TimeOutTime=#{timeOutTime},ProcessVersion=#{processVersion},Description=#{description},Creator=#{creator},CreateTime=#{createTime}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_ProcessInst
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_ProcessInst where ID=#{id}
@@ -132,6 +282,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_ProcessInst where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessInst">

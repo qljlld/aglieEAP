@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2008                    */
-/* Created on:     2013/10/24 17:17:08                          */
+/* Created on:     2013/10/27 10:54:35                          */
 /*==============================================================*/
 
 
@@ -2172,7 +2172,8 @@ create table WF_TraceLog (
    ActivityID           varchar(36)          not null,
    ActivityInstID       varchar(36)          not null,
    WorkItemID           varchar(36)          not null,
-   Message              varchar(128)         null
+   Message              varchar(128)         null,
+   CreateTime           datetime             null
 )
 go
 
@@ -2383,6 +2384,25 @@ execute sp_addextendedproperty 'MS_Description',
    'user', @CurrentUser, 'table', 'WF_TraceLog', 'column', 'Message'
 go
 
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('WF_TraceLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'CreateTime')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'WF_TraceLog', 'column', 'CreateTime'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '创建时间',
+   'user', @CurrentUser, 'table', 'WF_TraceLog', 'column', 'CreateTime'
+go
+
 alter table WF_TraceLog
    add constraint PK_WF_TRACELOG primary key nonclustered (ID)
 go
@@ -2589,6 +2609,7 @@ create table WF_Transition (
    DestActID            varchar(36)          not null,
    DestActName          varchar(32)          null,
    ProcessInstID        varchar(36)          not null,
+   ProcessInstName      varchar(32)          null,
    TransTime            datetime             not null
 )
 go
@@ -2802,6 +2823,25 @@ go
 
 if exists(select 1 from sys.extended_properties p where
       p.major_id = object_id('WF_Transition')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'ProcessInstName')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'WF_Transition', 'column', 'ProcessInstName'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '流程实例名称',
+   'user', @CurrentUser, 'table', 'WF_Transition', 'column', 'ProcessInstName'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('WF_Transition')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'TransTime')
 )
 begin
@@ -2832,6 +2872,7 @@ create table WF_WorkItem (
    Type                 smallint             null,
    CreateTime           datetime             null,
    Creator              varchar(36)          not null,
+   CreatorName          varchar(16)          null,
    StartTime            datetime             null,
    EndTime              datetime             null,
    Description          varchar(256)         null,
@@ -2967,6 +3008,25 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '创建者',
    'user', @CurrentUser, 'table', 'WF_WorkItem', 'column', 'Creator'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('WF_WorkItem')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'CreatorName')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'WF_WorkItem', 'column', 'CreatorName'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '创建者姓名',
+   'user', @CurrentUser, 'table', 'WF_WorkItem', 'column', 'CreatorName'
 go
 
 if exists(select 1 from sys.extended_properties p where

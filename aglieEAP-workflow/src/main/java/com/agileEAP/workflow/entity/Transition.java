@@ -50,6 +50,10 @@ public  class Transition {
     */
     private String processInstID;
     /**
+    * 流程实例名称
+    */
+    private String processInstName;
+    /**
     * 迁移时间
     */
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -145,6 +149,15 @@ public  class Transition {
     public void setProcessInstID(String  processInstID)
     {
         this.processInstID=processInstID;
+    }
+    public String  getProcessInstName()
+    {
+        return  this.processInstName;
+    }
+        
+    public void setProcessInstName(String  processInstName)
+    {
+        this.processInstName=processInstName;
     }
     public Date  getTransTime()
     {

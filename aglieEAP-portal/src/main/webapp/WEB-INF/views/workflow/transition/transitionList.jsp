@@ -67,6 +67,12 @@
             			<input type="text" id="processInstID" name="processInstID" value=""/>
                     </div>
             	</div>
+            	<div class="control-group">
+            		<label for="processInstName" class="control-label">流程实例名称:</label>
+            		<div class="controls">
+            			<input type="text" id="processInstName" name="processInstName" value=""/>
+                    </div>
+            	</div>
             	<div class="form-actions">
             		<input id="btnSearch" class="btn btn-primary" type="button" value="查询"/>&nbsp;	
             		<input id="btnCancel" class="btn" type="button" value="清除" onclick="clearFilterValues()"/>
@@ -184,6 +190,10 @@
                     ,{
                 field : "processInstID",
                 title : "流程实例ID"
+            }
+                    ,{
+                field : "processInstName",
+                title : "流程实例名称"
             }
                     ,{
                 field : "transTime",

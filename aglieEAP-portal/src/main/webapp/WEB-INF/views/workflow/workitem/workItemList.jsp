@@ -26,6 +26,12 @@
                     </div>
             	</div>
             	<div class="control-group">
+            		<label for="creatorName" class="control-label">创建者姓名:</label>
+            		<div class="controls">
+            			<input type="text" id="creatorName" name="creatorName" value=""/>
+                    </div>
+            	</div>
+            	<div class="control-group">
             		<label for="participant" class="control-label">参与者:</label>
             		<div class="controls">
             			<input type="text" id="participant" name="participant" value=""/>
@@ -191,6 +197,10 @@
                     ,{
                 field : "creator",
                 title : "创建者"
+            }
+                    ,{
+                field : "creatorName",
+                title : "创建者姓名"
             }
                     ,{
                 field : "startTime",

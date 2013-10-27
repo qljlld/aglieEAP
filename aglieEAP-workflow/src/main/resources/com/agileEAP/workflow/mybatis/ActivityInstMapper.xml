@@ -18,17 +18,109 @@
 		CreateTime as createTime   
 	</sql>
     
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{model.id},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{model.name},
+            </if>
+            <if test="entity.type!=null">
+                Type =#{model.type},
+            </if>
+            <if test="entity.currentState!=null">
+                CurrentState =#{model.currentState},
+            </if>
+            <if test="entity.startTime!=null">
+                StartTime =#{model.startTime},
+            </if>
+            <if test="entity.endTime!=null">
+                EndTime =#{model.endTime},
+            </if>
+            <if test="entity.subProcessInstID!=null">
+                SubProcessInstID =#{model.subProcessInstID},
+            </if>
+            <if test="entity.activityDefID!=null">
+                ActivityDefID =#{model.activityDefID},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{model.processInstID},
+            </if>
+            <if test="entity.rollbackFlag!=null">
+                RollbackFlag =#{model.rollbackFlag},
+            </if>
+            <if test="entity.description!=null">
+                Description =#{model.description},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{model.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.type!=null">
+            and Type =#{parameters.type}
+        </if>
+        <if test="parameters.currentState!=null">
+            and CurrentState =#{parameters.currentState}
+        </if>
+        <if test="parameters.beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${parameters.beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${parameters.endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${parameters.beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${parameters.endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.subProcessInstID!=null">
+            and SubProcessInstID =#{parameters.subProcessInstID}
+        </if>
+        <if test="parameters.activityDefID!=null">
+            and ActivityDefID =#{parameters.activityDefID}
+        </if>
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.rollbackFlag!=null">
+            and RollbackFlag =#{parameters.rollbackFlag}
+        </if>
+        <if test="parameters.description!=null">
+            and Description like '${parameters.description}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
     <sql id="whereParams">
         <if test="id  != null">
             and ID =#{id}
         </if>
-        <if test="name  != null">
+        <if test="name!=null">
             and Name like '${name}%'
         </if> 
-        <if test="type  != null">
+        <if test="type!=null">
             and Type =#{type}
         </if>
-        <if test="currentState  != null">
+        <if test="currentState!=null">
             and CurrentState =#{currentState}
         </if>
         <if test="beginStartTime!=null">
@@ -52,10 +144,10 @@
         <if test="processInstID  != null">
             and ProcessInstID =#{processInstID}
         </if>
-        <if test="rollbackFlag  != null">
+        <if test="rollbackFlag!=null">
             and RollbackFlag =#{rollbackFlag}
         </if>
-        <if test="description  != null">
+        <if test="description!=null">
             and Description like '${description}%'
         </if> 
         <if test="beginCreateTime!=null">
@@ -63,6 +155,9 @@
         </if>
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
         </if>
     </sql>
     
@@ -79,11 +174,18 @@
     	values (#{id},#{name},#{type},#{currentState},#{startTime},#{endTime},#{subProcessInstID},#{activityDefID},#{processInstID},#{rollbackFlag},#{description},#{createTime})
     </insert>
 
-    <insert id="update" parameterType="com.agileEAP.workflow.entity.ActivityInst">
+    <update id="update" parameterType="com.agileEAP.workflow.entity.ActivityInst">
     	update WF_ActivityInst set
     	Name=#{name},Type=#{type},CurrentState=#{currentState},StartTime=#{startTime},EndTime=#{endTime},SubProcessInstID=#{subProcessInstID},ActivityDefID=#{activityDefID},ProcessInstID=#{processInstID},RollbackFlag=#{rollbackFlag},Description=#{description},CreateTime=#{createTime}
     	where ID=#{id}
-    </insert>
+    </update>
+    
+     <update id="update" parameterType="map">
+    	 update WF_ActivityInst
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
 
     <delete id="delete" parameterType="String">
          delete from  WF_ActivityInst where ID=#{id}
@@ -96,6 +198,11 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
+    </delete>
+    
+    <delete id="batchDelete" parameterType="map">
+         delete from  WF_ActivityInst where 1=1
+         <include refid="whereParams"/>  
     </delete>
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ActivityInst">

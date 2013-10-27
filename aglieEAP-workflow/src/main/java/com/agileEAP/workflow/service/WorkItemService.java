@@ -46,7 +46,11 @@ public class WorkItemService {
     public void update(WorkItem workItem) {
         workItemRepository.update(workItem);
     }
-
+    
+    void update(WorkItem workItem,Map<String, Object> parameters){
+        workItemRepository.update(workItem,parameters);
+    }
+    
     public void save(WorkItem workItem) {
         workItemRepository.save(workItem);
     }
@@ -58,4 +62,8 @@ public class WorkItemService {
     public void batchDelete(List<String> ids) {
         workItemRepository.batchDelete(ids);
     }	
+    
+    public void batchDelete(Map<String, Object> parameters) {
+        workItemRepository.batchDelete(parameters);
+    }
 }

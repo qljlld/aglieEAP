@@ -95,6 +95,7 @@ public class  TraceLogController {
     	String message = "新增流程跟踪日志成功";
     	try {
     		traceLog.setId(UUID.randomUUID().toString());
+    		traceLog.setCreateTime(new Date());
     		traceLogService.save(traceLog);
     		JsonConvert jsonConvert = new JsonConvert();
     		actionLogService.AddActionLog("新增", message,jsonConvert.toJson(traceLog));

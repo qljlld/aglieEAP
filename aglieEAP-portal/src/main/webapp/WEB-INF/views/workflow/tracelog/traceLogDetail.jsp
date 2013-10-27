@@ -63,6 +63,14 @@
         		    <input type="text" id="message" name="message"  value="${traceLog.message}" placeholder="请输入消息" class="required" />
                 </div>
         	</div>
+            <c:if test="${action=='view'}">
+        	<div class="control-group">
+        		<label for="createTime" class="control-label">创建时间:</label>
+        		<div class="controls">
+                    <input type="text" id="createTime" name="createTime" value='${traceLog.createTime}' class="readonly" readonly="readonly"/>
+                </div>
+        	</div>
+            </c:if>
     	<c:if test="${action!='view'}">
     	<div class="form-actions">
     		<input id="btnSubimt" class="btn btn-primary" type="button" value="提交"/>&nbsp;	
