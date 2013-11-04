@@ -47,8 +47,8 @@ public class TransitionService {
         transitionRepository.update(transition);
     }
     
-    void update(Transition transition,Map<String, Object> parameters){
-        transitionRepository.update(transition,parameters);
+    void updateByWhere(Transition transition,Map<String, Object> parameters){
+        transitionRepository.updateByWhere(transition,parameters);
     }
     
     public void save(Transition transition) {
@@ -58,12 +58,13 @@ public class TransitionService {
     public void delete(String id) {
         transitionRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        transitionRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         transitionRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        transitionRepository.batchDelete(parameters);
-    }
+
 }

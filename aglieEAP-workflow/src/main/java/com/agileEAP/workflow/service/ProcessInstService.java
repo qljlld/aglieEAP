@@ -47,8 +47,8 @@ public class ProcessInstService {
         processInstRepository.update(processInst);
     }
     
-    void update(ProcessInst processInst,Map<String, Object> parameters){
-        processInstRepository.update(processInst,parameters);
+    void updateByWhere(ProcessInst processInst,Map<String, Object> parameters){
+        processInstRepository.updateByWhere(processInst,parameters);
     }
     
     public void save(ProcessInst processInst) {
@@ -58,12 +58,13 @@ public class ProcessInstService {
     public void delete(String id) {
         processInstRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        processInstRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         processInstRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        processInstRepository.batchDelete(parameters);
-    }
+
 }

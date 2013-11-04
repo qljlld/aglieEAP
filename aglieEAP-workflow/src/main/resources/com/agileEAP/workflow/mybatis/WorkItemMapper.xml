@@ -37,88 +37,88 @@
     <sql id="updateSetParams">
         <set>
             <if test="entity.id!=null">
-                ID =#{model.id},
+                ID =#{entity.id},
             </if>
             <if test="entity.name!=null">
-                Name =#{model.name},
+                Name =#{entity.name},
             </if>
             <if test="entity.type!=null">
-                Type =#{model.type},
+                Type =#{entity.type},
             </if>
             <if test="entity.createTime!=null">
-                CreateTime =#{model.createTime},
+                CreateTime =#{entity.createTime},
             </if>
             <if test="entity.creator!=null">
-                Creator =#{model.creator},
+                Creator =#{entity.creator},
             </if>
             <if test="entity.creatorName!=null">
-                CreatorName =#{model.creatorName},
+                CreatorName =#{entity.creatorName},
             </if>
             <if test="entity.startTime!=null">
-                StartTime =#{model.startTime},
+                StartTime =#{entity.startTime},
             </if>
             <if test="entity.endTime!=null">
-                EndTime =#{model.endTime},
+                EndTime =#{entity.endTime},
             </if>
             <if test="entity.description!=null">
-                Description =#{model.description},
+                Description =#{entity.description},
             </if>
             <if test="entity.currentState!=null">
-                CurrentState =#{model.currentState},
+                CurrentState =#{entity.currentState},
             </if>
             <if test="entity.participant!=null">
-                Participant =#{model.participant},
+                Participant =#{entity.participant},
             </if>
             <if test="entity.isTimeOut!=null">
-                IsTimeOut =#{model.isTimeOut},
+                IsTimeOut =#{entity.isTimeOut},
             </if>
             <if test="entity.timeOutTime!=null">
-                TimeOutTime =#{model.timeOutTime},
+                TimeOutTime =#{entity.timeOutTime},
             </if>
             <if test="entity.remindTime!=null">
-                RemindTime =#{model.remindTime},
+                RemindTime =#{entity.remindTime},
             </if>
             <if test="entity.actionURL!=null">
-                ActionURL =#{model.actionURL},
+                ActionURL =#{entity.actionURL},
             </if>
             <if test="entity.actionMask!=null">
-                ActionMask =#{model.actionMask},
+                ActionMask =#{entity.actionMask},
             </if>
             <if test="entity.processInstID!=null">
-                ProcessInstID =#{model.processInstID},
+                ProcessInstID =#{entity.processInstID},
             </if>
             <if test="entity.processInstName!=null">
-                ProcessInstName =#{model.processInstName},
+                ProcessInstName =#{entity.processInstName},
             </if>
             <if test="entity.activityInstID!=null">
-                ActivityInstID =#{model.activityInstID},
+                ActivityInstID =#{entity.activityInstID},
             </if>
             <if test="entity.activityInstName!=null">
-                ActivityInstName =#{model.activityInstName},
+                ActivityInstName =#{entity.activityInstName},
             </if>
             <if test="entity.processID!=null">
-                ProcessID =#{model.processID},
+                ProcessID =#{entity.processID},
             </if>
             <if test="entity.processName!=null">
-                ProcessName =#{model.processName},
+                ProcessName =#{entity.processName},
             </if>
             <if test="entity.allowAgent!=null">
-                AllowAgent =#{model.allowAgent},
+                AllowAgent =#{entity.allowAgent},
             </if>
             <if test="entity.bizState!=null">
-                BizState =#{model.bizState},
+                BizState =#{entity.bizState},
             </if>
             <if test="entity.executor!=null">
-                Executor =#{model.executor},
+                Executor =#{entity.executor},
             </if>
             <if test="entity.executorName!=null">
-                ExecutorName =#{model.executorName},
+                ExecutorName =#{entity.executorName},
             </if>
             <if test="entity.executeTime!=null">
-                ExecuteTime =#{model.executeTime},
+                ExecuteTime =#{entity.executeTime},
             </if>
             <if test="entity.rootProcessInstID!=null">
-                RootProcessInstID =#{model.rootProcessInstID},
+                RootProcessInstID =#{entity.rootProcessInstID},
             </if>
          </set>
 	</sql>
@@ -358,7 +358,7 @@
     	where ID=#{id}
     </update>
     
-     <update id="update" parameterType="map">
+     <update id="updateByWhere" parameterType="map">
     	 update WF_WorkItem
         <include refid="updateSetParams"/>  
             where 1=1
@@ -368,6 +368,11 @@
     <delete id="delete" parameterType="String">
          delete from  WF_WorkItem where ID=#{id}
     </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_WorkItem where 1=1
+         <include refid="whereParams"/>  
+    </delete>
 
     <delete id="batchDelete" parameterType="list">
     	<![CDATA[
@@ -376,12 +381,7 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
-    </delete>
-    
-    <delete id="batchDelete" parameterType="map">
-         delete from  WF_WorkItem where 1=1
-         <include refid="whereParams"/>  
-    </delete>
+    </delete>  
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
 		select
@@ -404,8 +404,8 @@
         <include refid="columns" />
 		from WF_WorkItem where 1=1
         <include refid="whereParams"/>  
-    </select>
-    
+    </select>    
+   
     <select id="countMyWorkItems" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
 		select count(*) from WF_WorkItem a inner join  WF_Participant p on a.ID=p.WorkItemID
 		where ((p.ParticipantID=#{userId} or	p.ParticipantID in(select  RoleID from OM_ObjectRole r where r.ObjectID=#{userId})
@@ -435,6 +435,5 @@
 		select * from AC_Operator where ID in (select ObjectID from OM_ObjectRole where RoleID in (select ParticipantID from WF_Participant where WorkItemID=#{workItemID} and ParticipantType=2))
 		union 
 		select * from AC_Operator where ID in (select EmployeeID from OM_EmployeeOrg where OrgID in( select ParticipantID from WF_Participant where WorkItemID=#{workItemID}  and ParticipantType=3))
-	</select>
-	
+	</select>    
 </mapper>

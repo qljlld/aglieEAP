@@ -47,8 +47,8 @@ public class TraceLogService {
         traceLogRepository.update(traceLog);
     }
     
-    void update(TraceLog traceLog,Map<String, Object> parameters){
-        traceLogRepository.update(traceLog,parameters);
+    void updateByWhere(TraceLog traceLog,Map<String, Object> parameters){
+        traceLogRepository.updateByWhere(traceLog,parameters);
     }
     
     public void save(TraceLog traceLog) {
@@ -58,12 +58,20 @@ public class TraceLogService {
     public void delete(String id) {
         traceLogRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        traceLogRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         traceLogRepository.batchDelete(ids);
     }	
     
-    public void batchDelete(Map<String, Object> parameters) {
-        traceLogRepository.batchDelete(parameters);
-    }
+	public PageDataResult searchTraceLogByPage(Map<String, Object> parameters) {
+        PageDataResult pageDataResult=new PageDataResult();
+        pageDataResult.setTotal(traceLogRepository.countTraceLog(parameters));
+        pageDataResult.setData(traceLogRepository.searchTraceLogByPage(parameters));
+
+        return pageDataResult;
+	}
 }

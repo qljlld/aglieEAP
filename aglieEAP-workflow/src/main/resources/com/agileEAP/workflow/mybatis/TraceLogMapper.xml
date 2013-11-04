@@ -20,37 +20,37 @@
     <sql id="updateSetParams">
         <set>
             <if test="entity.id!=null">
-                ID =#{model.id},
+                ID =#{entity.id},
             </if>
             <if test="entity.actionType!=null">
-                ActionType =#{model.actionType},
+                ActionType =#{entity.actionType},
             </if>
             <if test="entity.operator!=null">
-                Operator =#{model.operator},
+                Operator =#{entity.operator},
             </if>
             <if test="entity.clientIP!=null">
-                ClientIP =#{model.clientIP},
+                ClientIP =#{entity.clientIP},
             </if>
             <if test="entity.processID!=null">
-                ProcessID =#{model.processID},
+                ProcessID =#{entity.processID},
             </if>
             <if test="entity.processInstID!=null">
-                ProcessInstID =#{model.processInstID},
+                ProcessInstID =#{entity.processInstID},
             </if>
             <if test="entity.activityID!=null">
-                ActivityID =#{model.activityID},
+                ActivityID =#{entity.activityID},
             </if>
             <if test="entity.activityInstID!=null">
-                ActivityInstID =#{model.activityInstID},
+                ActivityInstID =#{entity.activityInstID},
             </if>
             <if test="entity.workItemID!=null">
-                WorkItemID =#{model.workItemID},
+                WorkItemID =#{entity.workItemID},
             </if>
             <if test="entity.message!=null">
-                Message =#{model.message},
+                Message =#{entity.message},
             </if>
             <if test="entity.createTime!=null">
-                CreateTime =#{model.createTime},
+                CreateTime =#{entity.createTime},
             </if>
          </set>
 	</sql>
@@ -158,7 +158,7 @@
     	where ID=#{id}
     </update>
     
-     <update id="update" parameterType="map">
+     <update id="updateByWhere" parameterType="map">
     	 update WF_TraceLog
         <include refid="updateSetParams"/>  
             where 1=1
@@ -168,6 +168,11 @@
     <delete id="delete" parameterType="String">
          delete from  WF_TraceLog where ID=#{id}
     </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_TraceLog where 1=1
+         <include refid="whereParams"/>  
+    </delete>
 
     <delete id="batchDelete" parameterType="list">
     	<![CDATA[
@@ -176,12 +181,7 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
-    </delete>
-    
-    <delete id="batchDelete" parameterType="map">
-         delete from  WF_TraceLog where 1=1
-         <include refid="whereParams"/>  
-    </delete>
+    </delete>  
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
 		select
@@ -205,4 +205,68 @@
 		from WF_TraceLog where 1=1
         <include refid="whereParams"/>  
     </select>
+    
+  <sql id="searchTraceLogByPageWhereParams">
+        <if test="message!= null">
+            and message =#{message}
+        </if>
+        <if test="clientIP!=null">
+            and clientIP =#{clientIP}
+        </if>
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="processInstName!=null">
+            and processInstName =#{processInstName}
+        </if>
+        <if test="activityInstName!=null">
+            and activityInstName =#{activityInstName}
+        </if>
+        <if test="workItemName!=null">
+            and workItemName =#{workItemName}
+        </if>  
+        <if test="operator!=null">
+            and operator =#{operator}
+        </if>    
+   </sql>
+        
+   <select id="countTraceLog" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select * from 
+		(select tl.Message as message,
+		tl.ClientIP as clientIP,
+		tl.CreateTime as createTime,
+		pi.Name as processInstName, 
+		ai.Name as activityInstName,
+		wi.Name as workItemName,
+		ot.UserName as operator
+		from WF_TraceLog tl join WF_ProcessDef pd on tl.ProcessID = pd.ID
+		inner join WF_ProcessInst pi on tl.ProcessInstID = pi.ID 
+		inner join WF_ActivityInst ai on tl.ActivityInstID = ai.ID
+		inner join WF_WorkItem wi on tl.WorkItemID = wi.ID
+		inner join AC_Operator ot on tl.Operator = ot.ID) t
+		from WF_TraceLog where 1=1
+        <include refid="searchTraceLogByPageWhereParams"/>  
+    </select>
+    
+   <select id="searchTraceLogByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select * from 
+		(select tl.Message as message,
+		tl.ClientIP as clientIP,
+		tl.CreateTime as createTime,
+		pi.Name as processInstName, 
+		ai.Name as activityInstName,
+		wi.Name as workItemName,
+		ot.UserName as operator
+		from WF_TraceLog tl join WF_ProcessDef pd on tl.ProcessID = pd.ID
+		inner join WF_ProcessInst pi on tl.ProcessInstID = pi.ID 
+		inner join WF_ActivityInst ai on tl.ActivityInstID = ai.ID
+		inner join WF_WorkItem wi on tl.WorkItemID = wi.ID
+		inner join AC_Operator ot on tl.Operator = ot.ID) t
+		from WF_TraceLog where 1=1
+        <include refid="searchTraceLogByPageWhereParams"/> 
+    </select>
+    
 </mapper>

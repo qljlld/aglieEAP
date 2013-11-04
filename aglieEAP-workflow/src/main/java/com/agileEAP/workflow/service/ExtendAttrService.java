@@ -47,8 +47,8 @@ public class ExtendAttrService {
         extendAttrRepository.update(extendAttr);
     }
     
-    void update(ExtendAttr extendAttr,Map<String, Object> parameters){
-        extendAttrRepository.update(extendAttr,parameters);
+    void updateByWhere(ExtendAttr extendAttr,Map<String, Object> parameters){
+        extendAttrRepository.updateByWhere(extendAttr,parameters);
     }
     
     public void save(ExtendAttr extendAttr) {
@@ -58,12 +58,13 @@ public class ExtendAttrService {
     public void delete(String id) {
         extendAttrRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        extendAttrRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         extendAttrRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        extendAttrRepository.batchDelete(parameters);
-    }
+
 }

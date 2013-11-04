@@ -1,4 +1,4 @@
-﻿package com.agileEAP.test.workflow.engine;
+package com.agileEAP.test.workflow.engine;
 
 import static org.junit.Assert.*;
 
@@ -25,13 +25,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 @DirtiesContext
-@ActiveProfiles("test")
+@ActiveProfiles("development")
 @ContextConfiguration(locations = { "/applicationContext.xml"})//, "/workflow/applicationContext-workflow.xml" })
 public class WorkflowEngineTest extends AbstractJUnit4SpringContextTests
 {
 	@Autowired
 	private IWorkflowEngine workflowEngine;
-
+	
 	@Test
 	public final void toXMLTest()
 	{

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.agileEAP.data.PageDataResult;
 import com.agileEAP.data.RequestPageData;
 import com.agileEAP.security.entity.Operator;
+import com.agileEAP.security.service.ShiroDbRealm.ShiroUser;
 import com.agileEAP.workflow.engine.enums.*;
 import com.agileEAP.workflow.definition.*;
 import com.agileEAP.workflow.engine.utility.WFUtil;
@@ -26,6 +27,7 @@ import com.agileEAP.workflow.entity.TransControl;
 import com.agileEAP.workflow.entity.Transition;
 import com.agileEAP.workflow.entity.WorkItem;
 import com.agileEAP.workflow.repository.*;
+import com.agileEAP.workflow.viewModel.TransitionModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -340,15 +342,22 @@ public class WorkflowPersistence implements IWorkflowPersistence
 		{
 			parameters = new java.util.HashMap<String, Object>();
 		}
-		
-		parameters.put("userId", userId);
-		parameters.put("includeAuto", includeAuto);
+		ShiroUser user =WFUtil.getUser();
 		parameters.put("orderby", orderby);
 		parameters.put("page", pageInfo.getPage());
     	parameters.put("pageSize", pageInfo.getPageSize());
     	parameters.putAll(parameters);
-
         PageDataResult pageDataResult=new PageDataResult();
+		if(user.IsAdmin())
+		{
+	        pageDataResult.setTotal(workItemRepository.count(parameters));
+	        pageDataResult.setData(workItemRepository.searchByPage(parameters));
+	        return pageDataResult;
+		}
+		
+		parameters.put("userId", userId);
+		parameters.put("includeAuto", includeAuto);
+
         pageDataResult.setTotal(workItemRepository.countMyWorkItems(parameters));
         pageDataResult.setData(workItemRepository.getMyWorkItemsByPage(parameters));
 
@@ -528,7 +537,7 @@ public class WorkflowPersistence implements IWorkflowPersistence
 		parameters.put("processInstID", processInstID);
 		parameters.put("currentState", (short)oldStatus.getValue());
 		
-		workItemRepository.update(workItem, parameters);
+		workItemRepository.updateByWhere(workItem, parameters);
 	}
 
 	public final void UpdateActivityInstStatus(String processInstID,
@@ -540,17 +549,17 @@ public class WorkflowPersistence implements IWorkflowPersistence
 		parameters.put("processInstID", processInstID);
 		parameters.put("currentState", (short)oldStatus.getValue());
 		
-		activityInstRepository.update(activityInst, parameters);
+		activityInstRepository.updateByWhere(activityInst, parameters);
 	}
 
 	public final void DeleteProcessInst(String processInstID) {
 		Map<String, Object> parameters =new HashMap<String,Object>();
 		parameters.put("ProcessInstID", processInstID);
 		
-		transControlRepository.batchDelete(parameters);
-		transitionRepository.batchDelete(parameters);
-		workItemRepository.batchDelete(parameters);
-		activityInstRepository.batchDelete(parameters);
+		transControlRepository.deleteByWhere(parameters);
+		transitionRepository.deleteByWhere(parameters);
+		workItemRepository.deleteByWhere(parameters);
+		activityInstRepository.deleteByWhere(parameters);
 		processInstRepository.delete(processInstID);
 	}
 
@@ -570,5 +579,15 @@ public class WorkflowPersistence implements IWorkflowPersistence
 	*/
 	public final List<ActivityInst> ActivityInsts(Map<String, Object> parameters){
 		return activityInstRepository.search(parameters);
+	}
+
+	/** 
+	 获取流程实例迁移记录
+	 
+	 @param processInstID 流程实例ID
+	 @return 
+	*/
+	public final List<TransitionModel> GetProcessInstTransitions(String processInstID) {
+		return processInstRepository.getProcessInstTransitions(processInstID);
 	}
 }

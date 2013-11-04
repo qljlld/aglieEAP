@@ -47,8 +47,8 @@ public class AgentService {
         agentRepository.update(agent);
     }
     
-    void update(Agent agent,Map<String, Object> parameters){
-        agentRepository.update(agent,parameters);
+    void updateByWhere(Agent agent,Map<String, Object> parameters){
+        agentRepository.updateByWhere(agent,parameters);
     }
     
     public void save(Agent agent) {
@@ -58,12 +58,13 @@ public class AgentService {
     public void delete(String id) {
         agentRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        agentRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         agentRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        agentRepository.batchDelete(parameters);
-    }
+
 }

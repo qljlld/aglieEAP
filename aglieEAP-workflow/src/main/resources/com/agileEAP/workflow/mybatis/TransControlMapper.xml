@@ -17,28 +17,28 @@
     <sql id="updateSetParams">
         <set>
             <if test="entity.id!=null">
-                ID =#{model.id},
+                ID =#{entity.id},
             </if>
             <if test="entity.srcActID!=null">
-                SrcActID =#{model.srcActID},
+                SrcActID =#{entity.srcActID},
             </if>
             <if test="entity.srcActName!=null">
-                SrcActName =#{model.srcActName},
+                SrcActName =#{entity.srcActName},
             </if>
             <if test="entity.destActID!=null">
-                DestActID =#{model.destActID},
+                DestActID =#{entity.destActID},
             </if>
             <if test="entity.destActName!=null">
-                DestActName =#{model.destActName},
+                DestActName =#{entity.destActName},
             </if>
             <if test="entity.processInstID!=null">
-                ProcessInstID =#{model.processInstID},
+                ProcessInstID =#{entity.processInstID},
             </if>
             <if test="entity.transTime!=null">
-                TransTime =#{model.transTime},
+                TransTime =#{entity.transTime},
             </if>
             <if test="entity.transWeight!=null">
-                TransWeight =#{model.transWeight},
+                TransWeight =#{entity.transWeight},
             </if>
          </set>
 	</sql>
@@ -134,7 +134,7 @@
     	where ID=#{id}
     </update>
     
-     <update id="update" parameterType="map">
+     <update id="updateByWhere" parameterType="map">
     	 update WF_TransControl
         <include refid="updateSetParams"/>  
             where 1=1
@@ -144,6 +144,11 @@
     <delete id="delete" parameterType="String">
          delete from  WF_TransControl where ID=#{id}
     </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_TransControl where 1=1
+         <include refid="whereParams"/>  
+    </delete>
 
     <delete id="batchDelete" parameterType="list">
     	<![CDATA[
@@ -152,12 +157,7 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
-    </delete>
-    
-    <delete id="batchDelete" parameterType="map">
-         delete from  WF_TransControl where 1=1
-         <include refid="whereParams"/>  
-    </delete>
+    </delete>  
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.TransControl">
 		select

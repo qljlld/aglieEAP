@@ -32,11 +32,11 @@ public interface AgentRepository {
 
     void update(Agent agent);
     
-    void update(@Param("entity")Agent agent,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")Agent agent,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
 }

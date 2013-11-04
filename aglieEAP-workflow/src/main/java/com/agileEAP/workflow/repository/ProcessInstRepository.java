@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.agileEAP.data.MyBatisRepository;
 import com.agileEAP.workflow.entity.ProcessInst;
+import com.agileEAP.workflow.viewModel.TransitionModel;
 
 /**
 * 流程实例Repository
@@ -32,11 +33,19 @@ public interface ProcessInstRepository {
 
     void update(ProcessInst processInst);
     
-    void update(@Param("entity")ProcessInst processInst,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")ProcessInst processInst,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
+    
+	/** 
+	 获取流程实例迁移记录
+	 
+	 @param processInstID 流程实例ID
+	 @return 
+	*/
+	List<TransitionModel> getProcessInstTransitions(String processInstID);
 }

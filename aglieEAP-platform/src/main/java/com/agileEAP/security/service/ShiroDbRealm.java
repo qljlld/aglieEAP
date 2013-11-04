@@ -163,6 +163,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		public String getCorpName() {
 			return corpName;
 		}
+		
+		public boolean IsAdmin()
+		{
+			return userType==0;
+		}
 	}
 }
 

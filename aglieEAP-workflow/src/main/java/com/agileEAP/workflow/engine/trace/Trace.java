@@ -1,6 +1,5 @@
 package com.agileEAP.workflow.engine.trace;
 
-import com.agileEAP.workflow.controller.ActivityInstController;
 import com.agileEAP.workflow.entity.TraceLog;
 import com.agileEAP.workflow.engine.exception.WorkflowException;
 import org.slf4j.Logger;

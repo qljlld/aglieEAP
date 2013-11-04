@@ -47,8 +47,8 @@ public class TransControlService {
         transControlRepository.update(transControl);
     }
     
-    void update(TransControl transControl,Map<String, Object> parameters){
-        transControlRepository.update(transControl,parameters);
+    void updateByWhere(TransControl transControl,Map<String, Object> parameters){
+        transControlRepository.updateByWhere(transControl,parameters);
     }
     
     public void save(TransControl transControl) {
@@ -58,12 +58,13 @@ public class TransControlService {
     public void delete(String id) {
         transControlRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        transControlRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         transControlRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        transControlRepository.batchDelete(parameters);
-    }
+
 }

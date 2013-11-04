@@ -11,6 +11,7 @@ import com.agileEAP.workflow.entity.*;
 import com.agileEAP.workflow.entity.Participant;
 import com.agileEAP.workflow.entity.Transition;
 import com.agileEAP.workflow.engine.enums.*;
+import com.agileEAP.workflow.viewModel.TransitionModel;
 import com.agileEAP.data.PageDataResult;
 import com.agileEAP.data.RequestPageData;
 
@@ -357,4 +358,12 @@ public interface IWorkflowPersistence
 	 @return 
 	*/
 	List<ActivityInst> ActivityInsts(Map<String, Object> parameters);
+
+	/** 
+	 获取流程实例迁移记录
+	 
+	 @param processInstID 流程实例ID
+	 @return 
+	*/
+	List<TransitionModel> GetProcessInstTransitions(String processInstID);
 }

@@ -15,22 +15,22 @@
     <sql id="updateSetParams">
         <set>
             <if test="entity.id!=null">
-                ID =#{model.id},
+                ID =#{entity.id},
             </if>
             <if test="entity.type!=null">
-                Type =#{model.type},
+                Type =#{entity.type},
             </if>
             <if test="entity.relatedBizID!=null">
-                RelatedBizID =#{model.relatedBizID},
+                RelatedBizID =#{entity.relatedBizID},
             </if>
             <if test="entity.isValid!=null">
-                IsValid =#{model.isValid},
+                IsValid =#{entity.isValid},
             </if>
             <if test="entity.agentPrivilege!=null">
-                AgentPrivilege =#{model.agentPrivilege},
+                AgentPrivilege =#{entity.agentPrivilege},
             </if>
             <if test="entity.agentID!=null">
-                AgentID =#{model.agentID},
+                AgentID =#{entity.agentID},
             </if>
          </set>
 	</sql>
@@ -102,7 +102,7 @@
     	where ID=#{id}
     </update>
     
-     <update id="update" parameterType="map">
+     <update id="updateByWhere" parameterType="map">
     	 update WF_AgentItem
         <include refid="updateSetParams"/>  
             where 1=1
@@ -112,6 +112,11 @@
     <delete id="delete" parameterType="String">
          delete from  WF_AgentItem where ID=#{id}
     </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_AgentItem where 1=1
+         <include refid="whereParams"/>  
+    </delete>
 
     <delete id="batchDelete" parameterType="list">
     	<![CDATA[
@@ -120,12 +125,7 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
-    </delete>
-    
-    <delete id="batchDelete" parameterType="map">
-         delete from  WF_AgentItem where 1=1
-         <include refid="whereParams"/>  
-    </delete>
+    </delete>  
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.AgentItem">
 		select

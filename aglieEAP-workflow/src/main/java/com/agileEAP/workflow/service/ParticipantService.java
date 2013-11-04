@@ -47,8 +47,8 @@ public class ParticipantService {
         participantRepository.update(participant);
     }
     
-    void update(Participant participant,Map<String, Object> parameters){
-        participantRepository.update(participant,parameters);
+    void updateByWhere(Participant participant,Map<String, Object> parameters){
+        participantRepository.updateByWhere(participant,parameters);
     }
     
     public void save(Participant participant) {
@@ -58,12 +58,13 @@ public class ParticipantService {
     public void delete(String id) {
         participantRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        participantRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         participantRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        participantRepository.batchDelete(parameters);
-    }
+
 }

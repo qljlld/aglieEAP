@@ -32,11 +32,11 @@ public interface TransitionRepository {
 
     void update(Transition transition);
     
-    void update(@Param("entity")Transition transition,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")Transition transition,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
 }

@@ -47,8 +47,8 @@ public class ProcessDefService {
         processDefRepository.update(processDef);
     }
     
-    void update(ProcessDef processDef,Map<String, Object> parameters){
-        processDefRepository.update(processDef,parameters);
+    void updateByWhere(ProcessDef processDef,Map<String, Object> parameters){
+        processDefRepository.updateByWhere(processDef,parameters);
     }
     
     public void save(ProcessDef processDef) {
@@ -58,12 +58,24 @@ public class ProcessDefService {
     public void delete(String id) {
         processDefRepository.delete(id);
     }
-
+    
+    public void saveOrUpdate(ProcessDef processDef) {
+    	if(processDefRepository.get(processDef.getId())==null)
+    	{
+    		processDefRepository.save(processDef);
+    	}
+    	else
+    	{
+    		processDefRepository.update(processDef);
+    	}
+    }
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        processDefRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         processDefRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        processDefRepository.batchDelete(parameters);
-    }
+
 }

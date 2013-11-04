@@ -16,25 +16,25 @@
     <sql id="updateSetParams">
         <set>
             <if test="entity.id!=null">
-                ID =#{model.id},
+                ID =#{entity.id},
             </if>
             <if test="entity.workItemID!=null">
-                WorkItemID =#{model.workItemID},
+                WorkItemID =#{entity.workItemID},
             </if>
             <if test="entity.bizTable!=null">
-                BizTable =#{model.bizTable},
+                BizTable =#{entity.bizTable},
             </if>
             <if test="entity.bizID!=null">
-                BizID =#{model.bizID},
+                BizID =#{entity.bizID},
             </if>
             <if test="entity.keyWord!=null">
-                KeyWord =#{model.keyWord},
+                KeyWord =#{entity.keyWord},
             </if>
             <if test="entity.createTime!=null">
-                CreateTime =#{model.createTime},
+                CreateTime =#{entity.createTime},
             </if>
             <if test="entity.creator!=null">
-                Creator =#{model.creator},
+                Creator =#{entity.creator},
             </if>
          </set>
 	</sql>
@@ -118,7 +118,7 @@
     	where ID=#{id}
     </update>
     
-     <update id="update" parameterType="map">
+     <update id="updateByWhere" parameterType="map">
     	 update WF_ProcessForm
         <include refid="updateSetParams"/>  
             where 1=1
@@ -128,6 +128,11 @@
     <delete id="delete" parameterType="String">
          delete from  WF_ProcessForm where ID=#{id}
     </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_ProcessForm where 1=1
+         <include refid="whereParams"/>  
+    </delete>
 
     <delete id="batchDelete" parameterType="list">
     	<![CDATA[
@@ -136,12 +141,7 @@
     	<foreach collection="list" item="id" open="(" separator="," close=")">
     		#{id}
     	</foreach>
-    </delete>
-    
-    <delete id="batchDelete" parameterType="map">
-         delete from  WF_ProcessForm where 1=1
-         <include refid="whereParams"/>  
-    </delete>
+    </delete>  
     
 	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ProcessForm">
 		select

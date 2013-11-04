@@ -32,11 +32,11 @@ public interface TransControlRepository {
 
     void update(TransControl transControl);
     
-    void update(@Param("entity")TransControl transControl,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")TransControl transControl,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
 }

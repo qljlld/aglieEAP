@@ -47,8 +47,8 @@ public class ActivityInstService {
         activityInstRepository.update(activityInst);
     }
     
-    void update(ActivityInst activityInst,Map<String, Object> parameters){
-        activityInstRepository.update(activityInst,parameters);
+    void updateByWhere(ActivityInst activityInst,Map<String, Object> parameters){
+        activityInstRepository.updateByWhere(activityInst,parameters);
     }
     
     public void save(ActivityInst activityInst) {
@@ -58,12 +58,13 @@ public class ActivityInstService {
     public void delete(String id) {
         activityInstRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        activityInstRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         activityInstRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        activityInstRepository.batchDelete(parameters);
-    }
+
 }

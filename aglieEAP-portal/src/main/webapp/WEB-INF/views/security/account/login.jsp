@@ -140,7 +140,7 @@
 							<label for="username" class="control-label" style="width: 70px;padding-top: 0px;font-size: 12px;">用户名：</label>
 							<div class="controls" style="margin-left: 1px;">
 								<input type="text" id="username" name="username" style="height: 12px;width: 145px;font-size: 12px; 
-										vertical-align: middle;" placeholder="输入用户名" value="zq" class="input-medium required" />
+										vertical-align: middle;" placeholder="输入用户名" value="admin" class="input-medium required" />
 							</div>
 						</div>
 					</div>
@@ -148,7 +148,7 @@
 						<div class="control-group" style="margin-bottom: 5px;">
 							<label for="password" class="control-label" style="width: 70px;padding-top: 0px;font-size: 12px;">密 &nbsp;&nbsp;&nbsp;码：</label>
 							<div class="controls" style="margin-left: 1px;">
-								<input type="password" id="password" name="password" value="1234567" style="height: 12px;width: 145px;font-size: 12px;"
+								<input type="password" id="password" name="password" value="admin" style="height: 12px;width: 145px;font-size: 12px;"
 									placeholder="输入密码" class="input-medium required" />
 							</div>
 						</div>

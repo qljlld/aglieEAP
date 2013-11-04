@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.agileEAP.data.MyBatisRepository;
 import com.agileEAP.workflow.entity.TraceLog;
+import com.agileEAP.workflow.viewModel.TraceLogModel;
 
 /**
 * 流程跟踪日志Repository
@@ -32,11 +33,15 @@ public interface TraceLogRepository {
 
     void update(TraceLog traceLog);
     
-    void update(@Param("entity")TraceLog traceLog,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")TraceLog traceLog,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
+    
+    long countTraceLog(Map<String, Object> parameters);
+    
+    List<TraceLogModel> searchTraceLogByPage(Map<String, Object> parameters);	
 }

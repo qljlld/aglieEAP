@@ -47,8 +47,8 @@ public class WorkItemService {
         workItemRepository.update(workItem);
     }
     
-    void update(WorkItem workItem,Map<String, Object> parameters){
-        workItemRepository.update(workItem,parameters);
+    void updateByWhere(WorkItem workItem,Map<String, Object> parameters){
+        workItemRepository.updateByWhere(workItem,parameters);
     }
     
     public void save(WorkItem workItem) {
@@ -58,12 +58,13 @@ public class WorkItemService {
     public void delete(String id) {
         workItemRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        workItemRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         workItemRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        workItemRepository.batchDelete(parameters);
-    }
+
 }

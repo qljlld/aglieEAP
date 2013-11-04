@@ -9,7 +9,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.agileEAP.utils.JsonConvert;
 import com.agileEAP.utils.Reflections;
+import com.agileEAP.workflow.engine.utility.WFUtil;
 
 /**
  * 工作流定义类
@@ -317,5 +320,43 @@ public class ProcessDefine {
 		} else {
 			getActivities().add(activity);
 		}
+	}
+	
+	public Activity getActivity(String activityID)
+	{
+		if(getActivities()!=null)
+		{
+			for(Activity activity:getActivities())
+			{
+				if(activity.getID().equals(activityID))
+				{
+					return activity;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public String toXml()
+	{
+		return WFUtil.parseProcessDefineToXML(this);
+	}
+	
+	public static ProcessDefine parseFromXml(String xml)
+	{
+		return WFUtil.parseProcessDefine(xml);
+	}
+	
+	public String toJson()
+	{
+		JsonConvert jsonConvert=new JsonConvert();
+		return jsonConvert.toJson(this);
+	}
+	
+	public static ProcessDefine parseFromJson(String json)
+	{
+		JsonConvert jsonConvert=new JsonConvert();
+		return jsonConvert.fromJson(json, ProcessDefine.class);
 	}
 }

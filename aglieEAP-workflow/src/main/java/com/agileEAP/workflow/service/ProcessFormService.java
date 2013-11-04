@@ -47,8 +47,8 @@ public class ProcessFormService {
         processFormRepository.update(processForm);
     }
     
-    void update(ProcessForm processForm,Map<String, Object> parameters){
-        processFormRepository.update(processForm,parameters);
+    void updateByWhere(ProcessForm processForm,Map<String, Object> parameters){
+        processFormRepository.updateByWhere(processForm,parameters);
     }
     
     public void save(ProcessForm processForm) {
@@ -58,12 +58,13 @@ public class ProcessFormService {
     public void delete(String id) {
         processFormRepository.delete(id);
     }
-
+    
+    public void deleteByWhere(Map<String, Object> parameters) {
+        processFormRepository.deleteByWhere(parameters);
+    }
+    
     public void batchDelete(List<String> ids) {
         processFormRepository.batchDelete(ids);
     }	
-    
-    public void batchDelete(Map<String, Object> parameters) {
-        processFormRepository.batchDelete(parameters);
-    }
+
 }

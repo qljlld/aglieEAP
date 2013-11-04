@@ -45,6 +45,21 @@
 		<mapper resource="com/agileEAP/security/mybatis/RolePrivilegeMapper.xml" />
 		<mapper resource="com/agileEAP/security/mybatis/ShortcutMapper.xml" />
 		<mapper resource="com/agileEAP/security/mybatis/SpecialPrivilegeMapper.xml" />	
+		
+		<!--com.agileEAP.workflow-->
+		 <mapper resource="com/agileEAP/workflow/mybatis/ActivityInstMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/AgentCandidateMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/AgentItemMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/AgentMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/ExtendAttrMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/ParticipantMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/ProcessDefMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/ProcessFormMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/ProcessInstMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/TraceLogMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/TransControlMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/TransitionMapper.xml" />
+		 <mapper resource="com/agileEAP/workflow/mybatis/WorkItemMapper.xml" />
 				
 	</mappers>
 </configuration>

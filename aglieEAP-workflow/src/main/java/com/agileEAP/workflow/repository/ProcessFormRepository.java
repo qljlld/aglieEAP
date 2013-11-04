@@ -32,11 +32,11 @@ public interface ProcessFormRepository {
 
     void update(ProcessForm processForm);
     
-    void update(@Param("entity")ProcessForm processForm,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")ProcessForm processForm,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
 }

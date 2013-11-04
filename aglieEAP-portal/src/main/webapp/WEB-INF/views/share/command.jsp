@@ -131,9 +131,9 @@ margin:0px;
 		else if (cmdName == "add" || cmdName == "update"
 				|| cmdName == "view" || cmdName == "check") {
 			if (window.parent && window.parent.openActionDialog) {
-				window.parent.openActionDialog(url, title, dialogSetting.detailWidth, dialogSetting.detailHeight);
+				window.parent.openActionDialog("actionDialog",url, title, dialogSetting.detailWidth, dialogSetting.detailHeight);
 			} else {
-				openActionDialog(url, title,dialogSetting.detailWidth, dialogSetting.detailHeight);
+				openActionDialog("actionDialog",url, title,dialogSetting.detailWidth, dialogSetting.detailHeight);
 			}
 		} else {
 			if (cmdName == "delete") {

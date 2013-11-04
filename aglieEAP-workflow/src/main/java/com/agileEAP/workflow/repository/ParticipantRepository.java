@@ -32,11 +32,11 @@ public interface ParticipantRepository {
 
     void update(Participant participant);
     
-    void update(@Param("entity")Participant participant,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")Participant participant,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
 }

@@ -32,11 +32,11 @@ public interface ProcessDefRepository {
 
     void update(ProcessDef processDef);
     
-    void update(@Param("entity")ProcessDef processDef,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")ProcessDef processDef,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
 }

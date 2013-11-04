@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Param;
 
 import com.agileEAP.data.MyBatisRepository;
-import com.agileEAP.security.entity.Operator;
 import com.agileEAP.workflow.entity.WorkItem;
+import com.agileEAP.security.entity.Operator;
 
 /**
 * 工作项Repository
@@ -33,13 +33,13 @@ public interface WorkItemRepository {
 
     void update(WorkItem workItem);
     
-    void update(@Param("entity")WorkItem workItem,@Param("parameters")Map<String, Object> parameters);
+    void updateByWhere(@Param("entity")WorkItem workItem,@Param("parameters")Map<String, Object> parameters);
 
     void delete(String id);
-
-    void batchDelete(List<String> ids);	
     
-    void batchDelete(Map<String, Object> parameters);	
+    void deleteByWhere(Map<String, Object> parameters);	
+    
+    void batchDelete(List<String> ids);
     
     long countMyWorkItems(Map<String, Object> parameters);
     
