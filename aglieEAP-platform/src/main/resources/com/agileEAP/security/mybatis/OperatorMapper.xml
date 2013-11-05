@@ -81,6 +81,9 @@
     	    <if test="endCreateTime!=null">
             <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
         </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>     
     </sql>
     
     <select id="get" parameterType="String" resultType="com.agileEAP.security.entity.Operator">

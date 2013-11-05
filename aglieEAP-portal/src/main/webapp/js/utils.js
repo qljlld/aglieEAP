@@ -2,16 +2,20 @@
 	alert(msg);
 }
 
-function openDialog(url, title,width,height) {
+function openTopDialog(container,url, title,width,height,showModal) {
 	if (window.parent && window.parent.openActionDialog) {
-		window.parent.openActionDialog(url, title, width, height);
+		window.parent.openActionDialog(container,url, title, width, height,showModal);
 	} else {
-		openActionDialog(url, title,width, height);
+		openActionDialog(container,url, title,width, height,showModal);
 	}
 }
 
-function openActionDialog(url,title,width,height,showModal) {
-	var actionDialog = $("#actionDialog");
+function openDialog(url, title,width,height) {
+	openTopDialog("actionDialog",url, title,width, height,false);
+}
+
+function openActionDialog(container,url,title,width,height,showModal) {
+	var actionDialog = $("#"+container);
 	actionDialog.html('<iframe id="bg_div_iframe" scrolling="auto"  width="100%" height="98%" allowTransparency="true" frameborder="0"></iframe>');
 	actionDialog.find('#bg_div_iframe').attr('src', url);
 	var kendoWindow=actionDialog.kendoWindow({
@@ -21,7 +25,7 @@ function openActionDialog(url,title,width,height,showModal) {
 		modal : showModal || false,
 		actions : [ "Maximize", "Close" ]
 	}).data("kendoWindow");
-	$("#actionDialog_wnd_title").text(title);
+	$("#"+container+"_wnd_title").text(title);
 	kendoWindow.wrapper.css({
 			width: width,
 	        height: height,

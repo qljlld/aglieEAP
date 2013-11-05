@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.AgentRepository">
+	<sql id="columns">
+		ID as id,
+		AgentFrom as agentFrom,
+		AgentTo as agentTo,
+		AgentToType as agentToType,
+		AgentType as agentType,
+		StartTime as startTime,
+		EndTime as endTime,
+		AgentReason as agentReason,
+		Creator as creator,
+		CreateTime as createTime   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.agentFrom!=null">
+                AgentFrom =#{entity.agentFrom},
+            </if>
+            <if test="entity.agentTo!=null">
+                AgentTo =#{entity.agentTo},
+            </if>
+            <if test="entity.agentToType!=null">
+                AgentToType =#{entity.agentToType},
+            </if>
+            <if test="entity.agentType!=null">
+                AgentType =#{entity.agentType},
+            </if>
+            <if test="entity.startTime!=null">
+                StartTime =#{entity.startTime},
+            </if>
+            <if test="entity.endTime!=null">
+                EndTime =#{entity.endTime},
+            </if>
+            <if test="entity.agentReason!=null">
+                AgentReason =#{entity.agentReason},
+            </if>
+            <if test="entity.creator!=null">
+                Creator =#{entity.creator},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{entity.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.agentFrom!=null">
+            and AgentFrom like '${parameters.agentFrom}%'
+        </if> 
+        <if test="parameters.agentTo!=null">
+            and AgentTo like '${parameters.agentTo}%'
+        </if> 
+        <if test="parameters.agentToType!=null">
+            and AgentToType =#{parameters.agentToType}
+        </if>
+        <if test="parameters.agentType!=null">
+            and AgentType =#{parameters.agentType}
+        </if>
+        <if test="parameters.beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${parameters.beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${parameters.endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${parameters.beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${parameters.endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.agentReason!=null">
+            and AgentReason like '${parameters.agentReason}%'
+        </if> 
+        <if test="parameters.creator!=null">
+            and Creator like '${parameters.creator}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="agentFrom!=null">
+            and AgentFrom like '${agentFrom}%'
+        </if> 
+        <if test="agentTo!=null">
+            and AgentTo like '${agentTo}%'
+        </if> 
+        <if test="agentToType!=null">
+            and AgentToType =#{agentToType}
+        </if>
+        <if test="agentType!=null">
+            and AgentType =#{agentType}
+        </if>
+        <if test="beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="agentReason!=null">
+            and AgentReason like '${agentReason}%'
+        </if> 
+        <if test="creator!=null">
+            and Creator like '${creator}%'
+        </if> 
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.Agent">
+    	select 		
+        <include refid="columns" />
+    	from WF_Agent
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.Agent">
+    	insert into  WF_Agent (
+    	ID,AgentFrom,AgentTo,AgentToType,AgentType,StartTime,EndTime,AgentReason,Creator,CreateTime)
+    	values (#{id},#{agentFrom},#{agentTo},#{agentToType},#{agentType},#{startTime},#{endTime},#{agentReason},#{creator},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.Agent">
+    	update WF_Agent set
+    	AgentFrom=#{agentFrom},AgentTo=#{agentTo},AgentToType=#{agentToType},AgentType=#{agentType},StartTime=#{startTime},EndTime=#{endTime},AgentReason=#{agentReason},Creator=#{creator},CreateTime=#{createTime}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_Agent
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_Agent where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_Agent where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_Agent where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Agent">
+		select
+        <include refid="columns" />
+		from WF_Agent where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_Agent where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.Agent">
+		select
+        <include refid="columns" />
+		from WF_Agent where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

@@ -76,6 +76,17 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
+		<!-- jetty for functional test and executable war -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- WEB end -->
 
 		<!-- CACHE begin -->

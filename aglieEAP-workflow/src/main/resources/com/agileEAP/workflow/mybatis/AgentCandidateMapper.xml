@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.AgentCandidateRepository">
+	<sql id="columns">
+		ID as id,
+		AgentToID as agentToID,
+		AgentToName as agentToName,
+		AgentToType as agentToType,
+		AgentFrom as agentFrom   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.agentToID!=null">
+                AgentToID =#{entity.agentToID},
+            </if>
+            <if test="entity.agentToName!=null">
+                AgentToName =#{entity.agentToName},
+            </if>
+            <if test="entity.agentToType!=null">
+                AgentToType =#{entity.agentToType},
+            </if>
+            <if test="entity.agentFrom!=null">
+                AgentFrom =#{entity.agentFrom},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.agentToID!=null">
+            and AgentToID =#{parameters.agentToID}
+        </if>
+        <if test="parameters.agentToName!=null">
+            and AgentToName like '${parameters.agentToName}%'
+        </if> 
+        <if test="parameters.agentToType!=null">
+            and AgentToType =#{parameters.agentToType}
+        </if>
+        <if test="parameters.agentFrom!=null">
+            and AgentFrom like '${parameters.agentFrom}%'
+        </if> 
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="agentToID  != null">
+            and AgentToID =#{agentToID}
+        </if>
+        <if test="agentToName!=null">
+            and AgentToName like '${agentToName}%'
+        </if> 
+        <if test="agentToType!=null">
+            and AgentToType =#{agentToType}
+        </if>
+        <if test="agentFrom!=null">
+            and AgentFrom like '${agentFrom}%'
+        </if> 
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.AgentCandidate">
+    	select 		
+        <include refid="columns" />
+    	from WF_AgentCandidate
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.AgentCandidate">
+    	insert into  WF_AgentCandidate (
+    	ID,AgentToID,AgentToName,AgentToType,AgentFrom)
+    	values (#{id},#{agentToID},#{agentToName},#{agentToType},#{agentFrom})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.AgentCandidate">
+    	update WF_AgentCandidate set
+    	AgentToID=#{agentToID},AgentToName=#{agentToName},AgentToType=#{agentToType},AgentFrom=#{agentFrom}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_AgentCandidate
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_AgentCandidate where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_AgentCandidate where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_AgentCandidate where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.AgentCandidate">
+		select
+        <include refid="columns" />
+		from WF_AgentCandidate where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_AgentCandidate where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.AgentCandidate">
+		select
+        <include refid="columns" />
+		from WF_AgentCandidate where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

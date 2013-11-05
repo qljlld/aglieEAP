@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.TransControlRepository">
+	<sql id="columns">
+		ID as id,
+		SrcActID as srcActID,
+		SrcActName as srcActName,
+		DestActID as destActID,
+		DestActName as destActName,
+		ProcessInstID as processInstID,
+		TransTime as transTime,
+		TransWeight as transWeight   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.srcActID!=null">
+                SrcActID =#{entity.srcActID},
+            </if>
+            <if test="entity.srcActName!=null">
+                SrcActName =#{entity.srcActName},
+            </if>
+            <if test="entity.destActID!=null">
+                DestActID =#{entity.destActID},
+            </if>
+            <if test="entity.destActName!=null">
+                DestActName =#{entity.destActName},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{entity.processInstID},
+            </if>
+            <if test="entity.transTime!=null">
+                TransTime =#{entity.transTime},
+            </if>
+            <if test="entity.transWeight!=null">
+                TransWeight =#{entity.transWeight},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.srcActID!=null">
+            and SrcActID =#{parameters.srcActID}
+        </if>
+        <if test="parameters.srcActName!=null">
+            and SrcActName like '${parameters.srcActName}%'
+        </if> 
+        <if test="parameters.destActID!=null">
+            and DestActID =#{parameters.destActID}
+        </if>
+        <if test="parameters.destActName!=null">
+            and DestActName like '${parameters.destActName}%'
+        </if> 
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.beginTransTime!=null">
+            <![CDATA[ and TransTime>= to_date('${parameters.beginTransTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endTransTime!=null">
+            <![CDATA[ and TransTime<= to_date('${parameters.endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginTransWeight!=null">
+            <![CDATA[ and  TransWeight >=#{parameters.beginTransWeight}]]>
+        </if>
+    	    <if test="parameters.endTransWeight!=null">
+            <![CDATA[ and  TransWeight <=#{parameters.endTransWeight}]]>
+         </if>      
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="srcActID  != null">
+            and SrcActID =#{srcActID}
+        </if>
+        <if test="srcActName!=null">
+            and SrcActName like '${srcActName}%'
+        </if> 
+        <if test="destActID  != null">
+            and DestActID =#{destActID}
+        </if>
+        <if test="destActName!=null">
+            and DestActName like '${destActName}%'
+        </if> 
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="beginTransTime!=null">
+            <![CDATA[ and TransTime>= to_date('${beginTransTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endTransTime!=null">
+            <![CDATA[ and TransTime<= to_date('${endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginTransWeight!=null">
+            <![CDATA[ and  TransWeight >=#{ beginTransWeight}]]>
+        </if>
+    	    <if test="endTransWeight!=null">
+            <![CDATA[ and  TransWeight <=#{ endTransWeight}]]>
+         </if>      
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.TransControl">
+    	select 		
+        <include refid="columns" />
+    	from WF_TransControl
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.TransControl">
+    	insert into  WF_TransControl (
+    	ID,SrcActID,SrcActName,DestActID,DestActName,ProcessInstID,TransTime,TransWeight)
+    	values (#{id},#{srcActID},#{srcActName},#{destActID},#{destActName},#{processInstID},#{transTime},#{transWeight})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.TransControl">
+    	update WF_TransControl set
+    	SrcActID=#{srcActID},SrcActName=#{srcActName},DestActID=#{destActID},DestActName=#{destActName},ProcessInstID=#{processInstID},TransTime=#{transTime},TransWeight=#{transWeight}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_TransControl
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_TransControl where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_TransControl where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_TransControl where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.TransControl">
+		select
+        <include refid="columns" />
+		from WF_TransControl where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_TransControl where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.TransControl">
+		select
+        <include refid="columns" />
+		from WF_TransControl where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

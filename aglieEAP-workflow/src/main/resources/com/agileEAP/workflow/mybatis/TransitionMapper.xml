@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.TransitionRepository">
+	<sql id="columns">
+		ID as id,
+		SrcActID as srcActID,
+		SrcActInstID as srcActInstID,
+		SrcActInstName as srcActInstName,
+		SrcActName as srcActName,
+		DestActInstID as destActInstID,
+		DestActInstName as destActInstName,
+		DestActID as destActID,
+		DestActName as destActName,
+		ProcessInstID as processInstID,
+		ProcessInstName as processInstName,
+		TransTime as transTime   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.srcActID!=null">
+                SrcActID =#{entity.srcActID},
+            </if>
+            <if test="entity.srcActInstID!=null">
+                SrcActInstID =#{entity.srcActInstID},
+            </if>
+            <if test="entity.srcActInstName!=null">
+                SrcActInstName =#{entity.srcActInstName},
+            </if>
+            <if test="entity.srcActName!=null">
+                SrcActName =#{entity.srcActName},
+            </if>
+            <if test="entity.destActInstID!=null">
+                DestActInstID =#{entity.destActInstID},
+            </if>
+            <if test="entity.destActInstName!=null">
+                DestActInstName =#{entity.destActInstName},
+            </if>
+            <if test="entity.destActID!=null">
+                DestActID =#{entity.destActID},
+            </if>
+            <if test="entity.destActName!=null">
+                DestActName =#{entity.destActName},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{entity.processInstID},
+            </if>
+            <if test="entity.processInstName!=null">
+                ProcessInstName =#{entity.processInstName},
+            </if>
+            <if test="entity.transTime!=null">
+                TransTime =#{entity.transTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.srcActID!=null">
+            and SrcActID =#{parameters.srcActID}
+        </if>
+        <if test="parameters.srcActInstID!=null">
+            and SrcActInstID =#{parameters.srcActInstID}
+        </if>
+        <if test="parameters.srcActInstName!=null">
+            and SrcActInstName like '${parameters.srcActInstName}%'
+        </if> 
+        <if test="parameters.srcActName!=null">
+            and SrcActName like '${parameters.srcActName}%'
+        </if> 
+        <if test="parameters.destActInstID!=null">
+            and DestActInstID =#{parameters.destActInstID}
+        </if>
+        <if test="parameters.destActInstName!=null">
+            and DestActInstName like '${parameters.destActInstName}%'
+        </if> 
+        <if test="parameters.destActID!=null">
+            and DestActID =#{parameters.destActID}
+        </if>
+        <if test="parameters.destActName!=null">
+            and DestActName like '${parameters.destActName}%'
+        </if> 
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.processInstName!=null">
+            and ProcessInstName like '${parameters.processInstName}%'
+        </if> 
+        <if test="parameters.beginTransTime!=null">
+            <![CDATA[ and TransTime>= to_date('${parameters.beginTransTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endTransTime!=null">
+            <![CDATA[ and TransTime<= to_date('${parameters.endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="srcActID  != null">
+            and SrcActID =#{srcActID}
+        </if>
+        <if test="srcActInstID  != null">
+            and SrcActInstID =#{srcActInstID}
+        </if>
+        <if test="srcActInstName!=null">
+            and SrcActInstName like '${srcActInstName}%'
+        </if> 
+        <if test="srcActName!=null">
+            and SrcActName like '${srcActName}%'
+        </if> 
+        <if test="destActInstID  != null">
+            and DestActInstID =#{destActInstID}
+        </if>
+        <if test="destActInstName!=null">
+            and DestActInstName like '${destActInstName}%'
+        </if> 
+        <if test="destActID  != null">
+            and DestActID =#{destActID}
+        </if>
+        <if test="destActName!=null">
+            and DestActName like '${destActName}%'
+        </if> 
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="processInstName!=null">
+            and ProcessInstName like '${processInstName}%'
+        </if> 
+        <if test="beginTransTime!=null">
+            <![CDATA[ and TransTime>= to_date('${beginTransTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endTransTime!=null">
+            <![CDATA[ and TransTime<= to_date('${endTransTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.Transition">
+    	select 		
+        <include refid="columns" />
+    	from WF_Transition
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.Transition">
+    	insert into  WF_Transition (
+    	ID,SrcActID,SrcActInstID,SrcActInstName,SrcActName,DestActInstID,DestActInstName,DestActID,DestActName,ProcessInstID,ProcessInstName,TransTime)
+    	values (#{id},#{srcActID},#{srcActInstID},#{srcActInstName},#{srcActName},#{destActInstID},#{destActInstName},#{destActID},#{destActName},#{processInstID},#{processInstName},#{transTime})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.Transition">
+    	update WF_Transition set
+    	SrcActID=#{srcActID},SrcActInstID=#{srcActInstID},SrcActInstName=#{srcActInstName},SrcActName=#{srcActName},DestActInstID=#{destActInstID},DestActInstName=#{destActInstName},DestActID=#{destActID},DestActName=#{destActName},ProcessInstID=#{processInstID},ProcessInstName=#{processInstName},TransTime=#{transTime}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_Transition
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_Transition where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_Transition where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_Transition where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Transition">
+		select
+        <include refid="columns" />
+		from WF_Transition where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_Transition where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.Transition">
+		select
+        <include refid="columns" />
+		from WF_Transition where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

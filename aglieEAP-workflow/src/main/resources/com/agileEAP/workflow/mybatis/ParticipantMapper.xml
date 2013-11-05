@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.ParticipantRepository">
+	<sql id="columns">
+		ID as id,
+		Name as name,
+		ParticipantType as participantType,
+		ParticipantID as participantID,
+		WorkItemID as workItemID,
+		WorkItemState as workItemState,
+		PartiInType as partiInType,
+		DelegateType as delegateType,
+		ParticipantIndex as participantIndex,
+		CreateTime as createTime   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{entity.name},
+            </if>
+            <if test="entity.participantType!=null">
+                ParticipantType =#{entity.participantType},
+            </if>
+            <if test="entity.participantID!=null">
+                ParticipantID =#{entity.participantID},
+            </if>
+            <if test="entity.workItemID!=null">
+                WorkItemID =#{entity.workItemID},
+            </if>
+            <if test="entity.workItemState!=null">
+                WorkItemState =#{entity.workItemState},
+            </if>
+            <if test="entity.partiInType!=null">
+                PartiInType =#{entity.partiInType},
+            </if>
+            <if test="entity.delegateType!=null">
+                DelegateType =#{entity.delegateType},
+            </if>
+            <if test="entity.participantIndex!=null">
+                ParticipantIndex =#{entity.participantIndex},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{entity.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.participantType!=null">
+            and ParticipantType =#{parameters.participantType}
+        </if>
+        <if test="parameters.participantID!=null">
+            and ParticipantID =#{parameters.participantID}
+        </if>
+        <if test="parameters.workItemID!=null">
+            and WorkItemID =#{parameters.workItemID}
+        </if>
+        <if test="parameters.workItemState!=null">
+            and WorkItemState =#{parameters.workItemState}
+        </if>
+        <if test="parameters.partiInType!=null">
+            and PartiInType =#{parameters.partiInType}
+        </if>
+        <if test="parameters.delegateType!=null">
+            and DelegateType =#{parameters.delegateType}
+        </if>
+        <if test="parameters.beginParticipantIndex!=null">
+            <![CDATA[ and  ParticipantIndex >=#{parameters.beginParticipantIndex}]]>
+        </if>
+    	    <if test="parameters.endParticipantIndex!=null">
+            <![CDATA[ and  ParticipantIndex <=#{parameters.endParticipantIndex}]]>
+         </if>      
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="name!=null">
+            and Name like '${name}%'
+        </if> 
+        <if test="participantType!=null">
+            and ParticipantType =#{participantType}
+        </if>
+        <if test="participantID  != null">
+            and ParticipantID =#{participantID}
+        </if>
+        <if test="workItemID  != null">
+            and WorkItemID =#{workItemID}
+        </if>
+        <if test="workItemState!=null">
+            and WorkItemState =#{workItemState}
+        </if>
+        <if test="partiInType!=null">
+            and PartiInType =#{partiInType}
+        </if>
+        <if test="delegateType!=null">
+            and DelegateType =#{delegateType}
+        </if>
+        <if test="beginParticipantIndex!=null">
+            <![CDATA[ and  ParticipantIndex >=#{ beginParticipantIndex}]]>
+        </if>
+    	    <if test="endParticipantIndex!=null">
+            <![CDATA[ and  ParticipantIndex <=#{ endParticipantIndex}]]>
+         </if>      
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.Participant">
+    	select 		
+        <include refid="columns" />
+    	from WF_Participant
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.Participant">
+    	insert into  WF_Participant (
+    	ID,Name,ParticipantType,ParticipantID,WorkItemID,WorkItemState,PartiInType,DelegateType,ParticipantIndex,CreateTime)
+    	values (#{id},#{name},#{participantType},#{participantID},#{workItemID},#{workItemState},#{partiInType},#{delegateType},#{participantIndex},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.Participant">
+    	update WF_Participant set
+    	Name=#{name},ParticipantType=#{participantType},ParticipantID=#{participantID},WorkItemID=#{workItemID},WorkItemState=#{workItemState},PartiInType=#{partiInType},DelegateType=#{delegateType},ParticipantIndex=#{participantIndex},CreateTime=#{createTime}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_Participant
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_Participant where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_Participant where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_Participant where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.Participant">
+		select
+        <include refid="columns" />
+		from WF_Participant where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_Participant where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.Participant">
+		select
+        <include refid="columns" />
+		from WF_Participant where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

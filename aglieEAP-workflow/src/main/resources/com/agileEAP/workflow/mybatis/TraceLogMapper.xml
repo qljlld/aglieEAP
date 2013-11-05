@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.TraceLogRepository">
+	<sql id="columns">
+		ID as id,
+		ActionType as actionType,
+		Operator as operator,
+		ClientIP as clientIP,
+		ProcessID as processID,
+		ProcessInstID as processInstID,
+		ActivityID as activityID,
+		ActivityInstID as activityInstID,
+		WorkItemID as workItemID,
+		Message as message,
+		CreateTime as createTime   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.actionType!=null">
+                ActionType =#{entity.actionType},
+            </if>
+            <if test="entity.operator!=null">
+                Operator =#{entity.operator},
+            </if>
+            <if test="entity.clientIP!=null">
+                ClientIP =#{entity.clientIP},
+            </if>
+            <if test="entity.processID!=null">
+                ProcessID =#{entity.processID},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{entity.processInstID},
+            </if>
+            <if test="entity.activityID!=null">
+                ActivityID =#{entity.activityID},
+            </if>
+            <if test="entity.activityInstID!=null">
+                ActivityInstID =#{entity.activityInstID},
+            </if>
+            <if test="entity.workItemID!=null">
+                WorkItemID =#{entity.workItemID},
+            </if>
+            <if test="entity.message!=null">
+                Message =#{entity.message},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{entity.createTime},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.actionType!=null">
+            and ActionType =#{parameters.actionType}
+        </if>
+        <if test="parameters.operator!=null">
+            and Operator like '${parameters.operator}%'
+        </if> 
+        <if test="parameters.clientIP!=null">
+            and ClientIP like '${parameters.clientIP}%'
+        </if> 
+        <if test="parameters.processID!=null">
+            and ProcessID =#{parameters.processID}
+        </if>
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.activityID!=null">
+            and ActivityID =#{parameters.activityID}
+        </if>
+        <if test="parameters.activityInstID!=null">
+            and ActivityInstID =#{parameters.activityInstID}
+        </if>
+        <if test="parameters.workItemID!=null">
+            and WorkItemID =#{parameters.workItemID}
+        </if>
+        <if test="parameters.message!=null">
+            and Message like '${parameters.message}%'
+        </if> 
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="actionType!=null">
+            and ActionType =#{actionType}
+        </if>
+        <if test="operator!=null">
+            and Operator like '${operator}%'
+        </if> 
+        <if test="clientIP!=null">
+            and ClientIP like '${clientIP}%'
+        </if> 
+        <if test="processID  != null">
+            and ProcessID =#{processID}
+        </if>
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="activityID  != null">
+            and ActivityID =#{activityID}
+        </if>
+        <if test="activityInstID  != null">
+            and ActivityInstID =#{activityInstID}
+        </if>
+        <if test="workItemID  != null">
+            and WorkItemID =#{workItemID}
+        </if>
+        <if test="message!=null">
+            and Message like '${message}%'
+        </if> 
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.TraceLog">
+    	select 		
+        <include refid="columns" />
+    	from WF_TraceLog
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.TraceLog">
+    	insert into  WF_TraceLog (
+    	ID,ActionType,Operator,ClientIP,ProcessID,ProcessInstID,ActivityID,ActivityInstID,WorkItemID,Message,CreateTime)
+    	values (#{id},#{actionType},#{operator},#{clientIP},#{processID},#{processInstID},#{activityID},#{activityInstID},#{workItemID},#{message},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.TraceLog">
+    	update WF_TraceLog set
+    	ActionType=#{actionType},Operator=#{operator},ClientIP=#{clientIP},ProcessID=#{processID},ProcessInstID=#{processInstID},ActivityID=#{activityID},ActivityInstID=#{activityInstID},WorkItemID=#{workItemID},Message=#{message},CreateTime=#{createTime}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_TraceLog
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_TraceLog where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_TraceLog where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_TraceLog where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select
+        <include refid="columns" />
+		from WF_TraceLog where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_TraceLog where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select
+        <include refid="columns" />
+		from WF_TraceLog where 1=1
+        <include refid="whereParams"/>  
+    </select>
+    
+  <sql id="searchTraceLogByPageWhereParams">
+        <if test="message!= null">
+            and message =#{message}
+        </if>
+        <if test="clientIP!=null">
+            and clientIP =#{clientIP}
+        </if>
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="processInstName!=null">
+            and processInstName =#{processInstName}
+        </if>
+        <if test="activityInstName!=null">
+            and activityInstName =#{activityInstName}
+        </if>
+        <if test="workItemName!=null">
+            and workItemName =#{workItemName}
+        </if>  
+        <if test="operator!=null">
+            and operator =#{operator}
+        </if>    
+   </sql>
+        
+   <select id="countTraceLog" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select * from 
+		(select tl.Message as message,
+		tl.ClientIP as clientIP,
+		tl.CreateTime as createTime,
+		pi.Name as processInstName, 
+		ai.Name as activityInstName,
+		wi.Name as workItemName,
+		ot.UserName as operator
+		from WF_TraceLog tl join WF_ProcessDef pd on tl.ProcessID = pd.ID
+		inner join WF_ProcessInst pi on tl.ProcessInstID = pi.ID 
+		inner join WF_ActivityInst ai on tl.ActivityInstID = ai.ID
+		inner join WF_WorkItem wi on tl.WorkItemID = wi.ID
+		inner join AC_Operator ot on tl.Operator = ot.ID) t
+		from WF_TraceLog where 1=1
+        <include refid="searchTraceLogByPageWhereParams"/>  
+    </select>
+    
+   <select id="searchTraceLogByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.TraceLog">
+		select * from 
+		(select tl.Message as message,
+		tl.ClientIP as clientIP,
+		tl.CreateTime as createTime,
+		pi.Name as processInstName, 
+		ai.Name as activityInstName,
+		wi.Name as workItemName,
+		ot.UserName as operator
+		from WF_TraceLog tl join WF_ProcessDef pd on tl.ProcessID = pd.ID
+		inner join WF_ProcessInst pi on tl.ProcessInstID = pi.ID 
+		inner join WF_ActivityInst ai on tl.ActivityInstID = ai.ID
+		inner join WF_WorkItem wi on tl.WorkItemID = wi.ID
+		inner join AC_Operator ot on tl.Operator = ot.ID) t
+		from WF_TraceLog where 1=1
+        <include refid="searchTraceLogByPageWhereParams"/> 
+    </select>
+    
+</mapper>

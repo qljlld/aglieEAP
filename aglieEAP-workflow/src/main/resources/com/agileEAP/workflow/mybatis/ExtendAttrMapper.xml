@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.ExtendAttrRepository">
+	<sql id="columns">
+		ID as id,
+		Entity as entity,
+		EntityID as entityID,
+		Name as name,
+		Value as value   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.entity!=null">
+                Entity =#{entity.entity},
+            </if>
+            <if test="entity.entityID!=null">
+                EntityID =#{entity.entityID},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{entity.name},
+            </if>
+            <if test="entity.value!=null">
+                Value =#{entity.value},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.entity!=null">
+            and Entity like '${parameters.entity}%'
+        </if> 
+        <if test="parameters.entityID!=null">
+            and EntityID =#{parameters.entityID}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.value!=null">
+            and Value like '${parameters.value}%'
+        </if> 
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="entity!=null">
+            and Entity like '${entity}%'
+        </if> 
+        <if test="entityID  != null">
+            and EntityID =#{entityID}
+        </if>
+        <if test="name!=null">
+            and Name like '${name}%'
+        </if> 
+        <if test="value!=null">
+            and Value like '${value}%'
+        </if> 
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.ExtendAttr">
+    	select 		
+        <include refid="columns" />
+    	from WF_ExtendAttr
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.ExtendAttr">
+    	insert into  WF_ExtendAttr (
+    	ID,Entity,EntityID,Name,Value)
+    	values (#{id},#{entity},#{entityID},#{name},#{value})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.ExtendAttr">
+    	update WF_ExtendAttr set
+    	Entity=#{entity},EntityID=#{entityID},Name=#{name},Value=#{value}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_ExtendAttr
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_ExtendAttr where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_ExtendAttr where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_ExtendAttr where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.ExtendAttr">
+		select
+        <include refid="columns" />
+		from WF_ExtendAttr where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_ExtendAttr where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.ExtendAttr">
+		select
+        <include refid="columns" />
+		from WF_ExtendAttr where 1=1
+        <include refid="whereParams"/>  
+    </select>
+</mapper>

@@ -19,7 +19,7 @@
 <link href="${ctx}/themes/default/kendoui/kendo.common.min.css" rel="stylesheet">
 <link href="${ctx}/themes/default/kendoui/kendo.metro.min.css" rel="stylesheet">
 <link href="${ctx}/themes/default/site.css" rel="stylesheet">
-<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="${ctx}/js/jquery.query.js"></script>
 <script type="text/javascript" src="${ctx}/themes/default/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/kendo.web.min.js"></script>
@@ -40,6 +40,7 @@
 	</div>--%>
   	<div id="processbar"></div>
   	<div id="actionDialog"></div>
+  	<div id="actionDialog2"></div>
   	<div id="chooseDialog"></div>   
 </body>
 </html>

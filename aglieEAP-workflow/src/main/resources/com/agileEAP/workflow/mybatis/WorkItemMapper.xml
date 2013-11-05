@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Repository接口 -->
+<mapper namespace="com.agileEAP.workflow.repository.WorkItemRepository">
+	<sql id="columns">
+		ID as id,
+		Name as name,
+		Type as type,
+		CreateTime as createTime,
+		Creator as creator,
+		CreatorName as creatorName,
+		StartTime as startTime,
+		EndTime as endTime,
+		Description as description,
+		CurrentState as currentState,
+		Participant as participant,
+		IsTimeOut as isTimeOut,
+		TimeOutTime as timeOutTime,
+		RemindTime as remindTime,
+		ActionURL as actionURL,
+		ActionMask as actionMask,
+		ProcessInstID as processInstID,
+		ProcessInstName as processInstName,
+		ActivityInstID as activityInstID,
+		ActivityInstName as activityInstName,
+		ProcessID as processID,
+		ProcessName as processName,
+		AllowAgent as allowAgent,
+		BizState as bizState,
+		Executor as executor,
+		ExecutorName as executorName,
+		ExecuteTime as executeTime,
+		RootProcessInstID as rootProcessInstID   
+	</sql>
+    
+    <sql id="updateSetParams">
+        <set>
+            <if test="entity.id!=null">
+                ID =#{entity.id},
+            </if>
+            <if test="entity.name!=null">
+                Name =#{entity.name},
+            </if>
+            <if test="entity.type!=null">
+                Type =#{entity.type},
+            </if>
+            <if test="entity.createTime!=null">
+                CreateTime =#{entity.createTime},
+            </if>
+            <if test="entity.creator!=null">
+                Creator =#{entity.creator},
+            </if>
+            <if test="entity.creatorName!=null">
+                CreatorName =#{entity.creatorName},
+            </if>
+            <if test="entity.startTime!=null">
+                StartTime =#{entity.startTime},
+            </if>
+            <if test="entity.endTime!=null">
+                EndTime =#{entity.endTime},
+            </if>
+            <if test="entity.description!=null">
+                Description =#{entity.description},
+            </if>
+            <if test="entity.currentState!=null">
+                CurrentState =#{entity.currentState},
+            </if>
+            <if test="entity.participant!=null">
+                Participant =#{entity.participant},
+            </if>
+            <if test="entity.isTimeOut!=null">
+                IsTimeOut =#{entity.isTimeOut},
+            </if>
+            <if test="entity.timeOutTime!=null">
+                TimeOutTime =#{entity.timeOutTime},
+            </if>
+            <if test="entity.remindTime!=null">
+                RemindTime =#{entity.remindTime},
+            </if>
+            <if test="entity.actionURL!=null">
+                ActionURL =#{entity.actionURL},
+            </if>
+            <if test="entity.actionMask!=null">
+                ActionMask =#{entity.actionMask},
+            </if>
+            <if test="entity.processInstID!=null">
+                ProcessInstID =#{entity.processInstID},
+            </if>
+            <if test="entity.processInstName!=null">
+                ProcessInstName =#{entity.processInstName},
+            </if>
+            <if test="entity.activityInstID!=null">
+                ActivityInstID =#{entity.activityInstID},
+            </if>
+            <if test="entity.activityInstName!=null">
+                ActivityInstName =#{entity.activityInstName},
+            </if>
+            <if test="entity.processID!=null">
+                ProcessID =#{entity.processID},
+            </if>
+            <if test="entity.processName!=null">
+                ProcessName =#{entity.processName},
+            </if>
+            <if test="entity.allowAgent!=null">
+                AllowAgent =#{entity.allowAgent},
+            </if>
+            <if test="entity.bizState!=null">
+                BizState =#{entity.bizState},
+            </if>
+            <if test="entity.executor!=null">
+                Executor =#{entity.executor},
+            </if>
+            <if test="entity.executorName!=null">
+                ExecutorName =#{entity.executorName},
+            </if>
+            <if test="entity.executeTime!=null">
+                ExecuteTime =#{entity.executeTime},
+            </if>
+            <if test="entity.rootProcessInstID!=null">
+                RootProcessInstID =#{entity.rootProcessInstID},
+            </if>
+         </set>
+	</sql>
+    
+    <sql id="updateWhereParams">
+        <if test="parameters.id!=null">
+            and ID =#{parameters.id}
+        </if>
+        <if test="parameters.name!=null">
+            and Name like '${parameters.name}%'
+        </if> 
+        <if test="parameters.type!=null">
+            and Type =#{parameters.type}
+        </if>
+        <if test="parameters.beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${parameters.beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${parameters.endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.creator!=null">
+            and Creator like '${parameters.creator}%'
+        </if> 
+        <if test="parameters.creatorName!=null">
+            and CreatorName like '${parameters.creatorName}%'
+        </if> 
+        <if test="parameters.beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${parameters.beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${parameters.endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${parameters.beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${parameters.endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.description!=null">
+            and Description like '${parameters.description}%'
+        </if> 
+        <if test="parameters.currentState!=null">
+            and CurrentState =#{parameters.currentState}
+        </if>
+        <if test="parameters.participant!=null">
+            and Participant like '${parameters.participant}%'
+        </if> 
+        <if test="parameters.isTimeOut!=null">
+            and IsTimeOut =#{parameters.isTimeOut}
+        </if>
+        <if test="parameters.beginTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime>= to_date('${parameters.beginTimeOutTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime<= to_date('${parameters.endTimeOutTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.beginRemindTime!=null">
+            <![CDATA[ and RemindTime>= to_date('${parameters.beginRemindTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endRemindTime!=null">
+            <![CDATA[ and RemindTime<= to_date('${parameters.endRemindTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.actionURL!=null">
+            and ActionURL like '${parameters.actionURL}%'
+        </if> 
+        <if test="parameters.actionMask!=null">
+            and ActionMask like '${parameters.actionMask}%'
+        </if> 
+        <if test="parameters.processInstID!=null">
+            and ProcessInstID =#{parameters.processInstID}
+        </if>
+        <if test="parameters.processInstName!=null">
+            and ProcessInstName like '${parameters.processInstName}%'
+        </if> 
+        <if test="parameters.activityInstID!=null">
+            and ActivityInstID =#{parameters.activityInstID}
+        </if>
+        <if test="parameters.activityInstName!=null">
+            and ActivityInstName like '${parameters.activityInstName}%'
+        </if> 
+        <if test="parameters.processID!=null">
+            and ProcessID =#{parameters.processID}
+        </if>
+        <if test="parameters.processName!=null">
+            and ProcessName like '${parameters.processName}%'
+        </if> 
+        <if test="parameters.allowAgent!=null">
+            and AllowAgent =#{parameters.allowAgent}
+        </if>
+        <if test="parameters.bizState!=null">
+            and BizState =#{parameters.bizState}
+        </if>
+        <if test="parameters.executor!=null">
+            and Executor like '${parameters.executor}%'
+        </if> 
+        <if test="parameters.executorName!=null">
+            and ExecutorName like '${parameters.executorName}%'
+        </if> 
+        <if test="parameters.beginExecuteTime!=null">
+            <![CDATA[ and ExecuteTime>= to_date('${parameters.beginExecuteTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="parameters.endExecuteTime!=null">
+            <![CDATA[ and ExecuteTime<= to_date('${parameters.endExecuteTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="parameters.rootProcessInstID!=null">
+            and RootProcessInstID =#{parameters.rootProcessInstID}
+        </if>
+        <if test="parameters._rawsql!=null">
+            ${parameters._rawsql}
+        </if>
+    </sql>
+        
+    <sql id="whereParams">
+        <if test="id  != null">
+            and ID =#{id}
+        </if>
+        <if test="name!=null">
+            and Name like '${name}%'
+        </if> 
+        <if test="type!=null">
+            and Type =#{type}
+        </if>
+        <if test="beginCreateTime!=null">
+            <![CDATA[ and CreateTime>= to_date('${beginCreateTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endCreateTime!=null">
+            <![CDATA[ and CreateTime<= to_date('${endCreateTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="creator!=null">
+            and Creator like '${creator}%'
+        </if> 
+        <if test="creatorName!=null">
+            and CreatorName like '${creatorName}%'
+        </if> 
+        <if test="beginStartTime!=null">
+            <![CDATA[ and StartTime>= to_date('${beginStartTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endStartTime!=null">
+            <![CDATA[ and StartTime<= to_date('${endStartTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginEndTime!=null">
+            <![CDATA[ and EndTime>= to_date('${beginEndTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endEndTime!=null">
+            <![CDATA[ and EndTime<= to_date('${endEndTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="description!=null">
+            and Description like '${description}%'
+        </if> 
+        <if test="currentState!=null">
+            and CurrentState =#{currentState}
+        </if>
+        <if test="participant!=null">
+            and Participant like '${participant}%'
+        </if> 
+        <if test="isTimeOut!=null">
+            and IsTimeOut =#{isTimeOut}
+        </if>
+        <if test="beginTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime>= to_date('${beginTimeOutTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endTimeOutTime!=null">
+            <![CDATA[ and TimeOutTime<= to_date('${endTimeOutTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="beginRemindTime!=null">
+            <![CDATA[ and RemindTime>= to_date('${beginRemindTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endRemindTime!=null">
+            <![CDATA[ and RemindTime<= to_date('${endRemindTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="actionURL!=null">
+            and ActionURL like '${actionURL}%'
+        </if> 
+        <if test="actionMask!=null">
+            and ActionMask like '${actionMask}%'
+        </if> 
+        <if test="processInstID  != null">
+            and ProcessInstID =#{processInstID}
+        </if>
+        <if test="processInstName!=null">
+            and ProcessInstName like '${processInstName}%'
+        </if> 
+        <if test="activityInstID  != null">
+            and ActivityInstID =#{activityInstID}
+        </if>
+        <if test="activityInstName!=null">
+            and ActivityInstName like '${activityInstName}%'
+        </if> 
+        <if test="processID  != null">
+            and ProcessID =#{processID}
+        </if>
+        <if test="processName!=null">
+            and ProcessName like '${processName}%'
+        </if> 
+        <if test="allowAgent!=null">
+            and AllowAgent =#{allowAgent}
+        </if>
+        <if test="bizState!=null">
+            and BizState =#{bizState}
+        </if>
+        <if test="executor!=null">
+            and Executor like '${executor}%'
+        </if> 
+        <if test="executorName!=null">
+            and ExecutorName like '${executorName}%'
+        </if> 
+        <if test="beginExecuteTime!=null">
+            <![CDATA[ and ExecuteTime>= to_date('${beginExecuteTime} 00:00:00','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+    	    <if test="endExecuteTime!=null">
+            <![CDATA[ and ExecuteTime<= to_date('${endExecuteTime} 23:59:59','yyyy-MM-dd hh24:mi:ss')]]>
+        </if>
+        <if test="rootProcessInstID  != null">
+            and RootProcessInstID =#{rootProcessInstID}
+        </if>
+        <if test="_rawsql!=null">
+            ${_rawsql}
+        </if>
+    </sql>
+    
+    <select id="get" parameterType="String" resultType="com.agileEAP.workflow.entity.WorkItem">
+    	select 		
+        <include refid="columns" />
+    	from WF_WorkItem
+    	where ID=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.agileEAP.workflow.entity.WorkItem">
+    	insert into  WF_WorkItem (
+    	ID,Name,Type,CreateTime,Creator,CreatorName,StartTime,EndTime,Description,CurrentState,Participant,IsTimeOut,TimeOutTime,RemindTime,ActionURL,ActionMask,ProcessInstID,ProcessInstName,ActivityInstID,ActivityInstName,ProcessID,ProcessName,AllowAgent,BizState,Executor,ExecutorName,ExecuteTime,RootProcessInstID)
+    	values (#{id},#{name},#{type},#{createTime},#{creator},#{creatorName},#{startTime},#{endTime},#{description},#{currentState},#{participant},#{isTimeOut},#{timeOutTime},#{remindTime},#{actionURL},#{actionMask},#{processInstID},#{processInstName},#{activityInstID},#{activityInstName},#{processID},#{processName},#{allowAgent},#{bizState},#{executor},#{executorName},#{executeTime},#{rootProcessInstID})
+    </insert>
+
+    <update id="update" parameterType="com.agileEAP.workflow.entity.WorkItem">
+    	update WF_WorkItem set
+    	Name=#{name},Type=#{type},CreateTime=#{createTime},Creator=#{creator},CreatorName=#{creatorName},StartTime=#{startTime},EndTime=#{endTime},Description=#{description},CurrentState=#{currentState},Participant=#{participant},IsTimeOut=#{isTimeOut},TimeOutTime=#{timeOutTime},RemindTime=#{remindTime},ActionURL=#{actionURL},ActionMask=#{actionMask},ProcessInstID=#{processInstID},ProcessInstName=#{processInstName},ActivityInstID=#{activityInstID},ActivityInstName=#{activityInstName},ProcessID=#{processID},ProcessName=#{processName},AllowAgent=#{allowAgent},BizState=#{bizState},Executor=#{executor},ExecutorName=#{executorName},ExecuteTime=#{executeTime},RootProcessInstID=#{rootProcessInstID}
+    	where ID=#{id}
+    </update>
+    
+     <update id="updateByWhere" parameterType="map">
+    	 update WF_WorkItem
+        <include refid="updateSetParams"/>  
+            where 1=1
+        <include refid="updateWhereParams"/>
+    </update>
+
+    <delete id="delete" parameterType="String">
+         delete from  WF_WorkItem where ID=#{id}
+    </delete>   
+    
+    <delete id="deleteByWhere" parameterType="map">
+         delete from  WF_WorkItem where 1=1
+         <include refid="whereParams"/>  
+    </delete>
+
+    <delete id="batchDelete" parameterType="list">
+    	<![CDATA[
+    		delete from WF_WorkItem where ID in
+    	]]>
+    	<foreach collection="list" item="id" open="(" separator="," close=")">
+    		#{id}
+    	</foreach>
+    </delete>  
+    
+	<select id="search" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select
+        <include refid="columns" />
+		from WF_WorkItem where 1=1
+        <include refid="whereParams"/>  
+        <if test="$orderby!=null">
+			order by ${$orderby}
+		</if>
+	</select>
+    
+    <select id="count" parameterType="map" resultType="long">
+		select count(*)
+		from WF_WorkItem where 1=1
+		<include refid="whereParams"/>
+	</select>
+    
+    <select id="searchByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select
+        <include refid="columns" />
+		from WF_WorkItem where 1=1
+        <include refid="whereParams"/>  
+    </select>    
+   
+    <select id="countMyWorkItems" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select count(*) from WF_WorkItem a inner join  WF_Participant p on a.ID=p.WorkItemID
+		where ((p.ParticipantID=#{userId} or	p.ParticipantID in(select  RoleID from OM_ObjectRole r where r.ObjectID=#{userId})
+		or p.ParticipantID in (select OrgID from OM_EmployeeOrg o where o.EmployeeID=#{userId})) 
+		<if test="$includeAuto==true">
+			or Type=5
+		</if>
+		)
+        <include refid="whereParams"/> 
+	</select>
+	
+	<select id="getMyWorkItemsByPage" parameterType="map" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select a.* 	
+		from WF_WorkItem a inner join  WF_Participant p on a.ID=p.WorkItemID
+		where ((p.ParticipantID=#{userId} or	p.ParticipantID in(select  RoleID from OM_ObjectRole r where r.ObjectID=#{userId})
+		or p.ParticipantID in (select OrgID from OM_EmployeeOrg o where o.EmployeeID=#{userId})) 
+		<if test="$includeAuto==true">
+			or Type=5
+		</if>
+		)
+        <include refid="whereParams"/>  
+	</select>
+	
+	<select id="getWorkItemParticipant" parameterType="String" resultType="com.agileEAP.workflow.entity.WorkItem">
+		select * from AC_Operator where ID in (select ParticipantID from WF_Participant where WorkItemID=#{workItemID} and ParticipantType=1) 
+		union 
+		select * from AC_Operator where ID in (select ObjectID from OM_ObjectRole where RoleID in (select ParticipantID from WF_Participant where WorkItemID=#{workItemID} and ParticipantType=2))
+		union 
+		select * from AC_Operator where ID in (select EmployeeID from OM_EmployeeOrg where OrgID in( select ParticipantID from WF_Participant where WorkItemID=#{workItemID}  and ParticipantType=3))
+	</select>    
+</mapper>
